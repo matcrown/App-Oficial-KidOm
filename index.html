@@ -79,13 +79,20 @@
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
 
         #main-app-container { display: none; width: 100%; height: 100vh; flex-direction: row; }
-        .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding-top: 30px; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; }
+        .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding: 30px 0 20px 0; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; position: relative; }
         .sidebar.visible { width: 85px; }
         .filter-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent; font-weight: 900; cursor: pointer; border: 2px solid #ccc; transition: 0.3s; font-size: 18px; color: #666; }
         .filter-circle.active.all { border-color: var(--blue); background: var(--blue); color: white; }
         .filter-circle.active.e { border-color: var(--exploradores); background: var(--exploradores); color: white; }
         .filter-circle.active.l { border-color: var(--lideres); background: var(--lideres); color: white; }
         .filter-circle.active.c { border-color: var(--campeones); background: var(--campeones); color: white; }
+
+        /* BOTON CERRAR SESION SIMPLE */
+        .btn-logout-sidebar { margin-top: auto; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: 2px solid #e2e8f0; cursor: pointer; font-size: 20px; transition: 0.3s; }
+        .btn-logout-sidebar:hover { background: var(--red); color: white; border-color: var(--red); }
+        .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
+        .btn-logout-sidebar:hover svg { stroke: white; }
+
         .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
         .header img { height: 45px; }
@@ -167,6 +174,13 @@
         <div class="filter-circle e" onclick="filterGroup('Exploradores', this)">E</div>
         <div class="filter-circle l" onclick="filterGroup('Lideres', this)">L</div>
         <div class="filter-circle c" onclick="filterGroup('Campeones', this)">C</div>
+        <button class="btn-logout-sidebar" onclick="cerrarSesion()" title="Cerrar Sesión">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </button>
     </div>
     <div class="main-content">
         <div class="header"><img src="https://i.imgur.com/bls27zm.png"><span>OFICINA VIRTUAL - KIDOM ACADEMY</span><img src="https://i.imgur.com/bls27zm.png"></div>
@@ -342,14 +356,33 @@
                 }, 500);
             }, 500);
         } else {
-            // 2. Alerta de error
-            alert("⚠️ ACCESO DENEGADO\nUsuario o Contraseña incorrectos. Intente de nuevo.");
+            // 2. Alerta de error personalizada
+            alert("El usuario/contraseña no es correcto, intentalo de nuevo");
         }
     }
 
     // 3. Escuchar tecla ENTER en los inputs
     document.getElementById('user').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
     document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
+
+    /* --- LOGOUT --- */
+    function cerrarSesion() {
+        const overlay = document.getElementById('login-overlay');
+        const card = document.querySelector('.login-card');
+        
+        // Limpiar inputs
+        document.getElementById('user').value = "";
+        document.getElementById('pass').value = "";
+        card.classList.remove('login-exit-anim');
+        
+        // Volver al estado inicial
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        document.getElementById('main-app-container').style.display = 'none';
+        
+        // Regresar a la pestaña por defecto
+        showTab('registro');
+    }
 
     // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;

@@ -5,16 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
     
-    <link rel="manifest" href='data:application/manifest+json,{"name":"KiDOM Master Console","short_name":"KiDOM","start_url":"index.html","display":"standalone","background_color":"#f4f4f4","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
-    
+    <link rel="manifest" href="data:application/manifest+json,
+    {
+      'name': 'KiDOM Master Console',
+      'short_name': 'KiDOM',
+      'start_url': '.',
+      'display': 'standalone',
+      'background_color': '#f4f4f4',
+      'theme_color': '#2667ff',
+      'icons': [
+        {
+          'src': 'https://i.imgur.com/ZVERytB.png',
+          'sizes': '512x512',
+          'type': 'image/png'
+        }
+      ]
+    }">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* AJUSTE PARA BLOQUEAR ESCALADO DE TEXTO EN ANDROID */
+        html {
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
-        body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: #f3f4f6; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden;
+            /* Soporte para notch en modo inmersivo */
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            box-sizing: border-box;
+        }
 
         /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
@@ -58,8 +89,10 @@
             background: rgba(255, 255, 255, 0.3); 
             backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 40px; border-radius: 60px; width: 280px; text-align: center;
+            padding: 40px; border-radius: 60px; 
+            width: 85%; max-width: 280px; text-align: center;
             box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+            box-sizing: border-box;
         }
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
@@ -89,8 +122,8 @@
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
+        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 100%; box-sizing: border-box; }
+        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 100%; box-sizing: border-box; }
         .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
         .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
         .bank-info-box { background: #eff6ff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #bfdbfe; font-size: 11px; border-left: 5px solid var(--blue); color: var(--dark); line-height: 1.6; display: none; }
@@ -368,13 +401,12 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    // Registro de sw.js obligatorio para Android
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", function() {
             navigator.serviceWorker.register("sw.js").then(function(reg) {
-                console.log("SW Activo");
+                console.log("SW OK");
             }).catch(function(err) {
-                console.log("Error", err);
+                console.log("SW Error", err);
             });
         });
     }

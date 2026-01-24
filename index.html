@@ -30,13 +30,19 @@
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
         body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
-        /* --- LOGIN REDISEÑADO V230 LOCK (INTACTO) --- */
+        /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
+        .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
+        @keyframes loginExit {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.25); opacity: 0; filter: blur(15px); }
+        }
+
         #login-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: #f4f4f4;
             background-image: url("https://www.transparenttextures.com/patterns/felt.png"); 
             display: flex; align-items: center; justify-content: center; z-index: 99999; 
-            overflow: hidden;
+            overflow: hidden; transition: opacity 0.5s;
         }
         .polaroid {
             position: absolute; background: white; padding: 12px 12px 35px 12px;
@@ -87,7 +93,7 @@
         .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #registro { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
+        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
@@ -103,7 +109,10 @@
         .btn-update-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--dark) !important; color: white !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; display: none; }
 
         #asistencia { display: none; flex: 1; padding: 20px; overflow-y: auto; }
-        .grid-asis { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 15px; }
+        
+        /* CORRECCIÓN DE CUADRÍCULA Y ESPACIO SCROLL */
+        .grid-asis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding-right: 10px; }
+        
         .card-asis { background: white; border-radius: 25px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 2px solid #f1f5f9; position: relative; }
         .card-asis.Exploradores { border-color: var(--exploradores); }
         .card-asis.Lideres { border-color: var(--lideres); }
@@ -126,6 +135,8 @@
         .turno-time { font-size: 10px; font-weight: 900; color: var(--blue); margin-bottom: 5px; display: block; border-bottom: 1px solid #eee; }
         .estudiante-tag { font-size: 10px; padding: 4px 8px; border-radius: 6px; color: white; margin-bottom: 3px; display: block; font-weight: 800; cursor: pointer; text-align: center; text-transform: uppercase; }
         #canvasFirma { background: #f1f5f9; border: 2px dashed #ccc; border-radius: 15px; width: 100%; height: 180px; touch-action: none; }
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
+        .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
     </style>
 </head>
 <body>
@@ -165,7 +176,7 @@
             <button class="tab-btn" id="btn-calendario" onclick="showTab('calendario')">Calendario DE SESIONES KIDOM</button>
         </div>
         
-        <div id="registro">
+        <div id="registro" style="display: flex;">
             <div class="form-container-wrapper"><div class="tack tack-tl"></div><div class="tack tack-tr"></div><div class="tack tack-bl"></div><div class="tack tack-br"></div><div class="form-card">
                 <form id="formReg">
                     <label class="label-kidom">REGISTRO DE FOTO ESTUDIANTIL</label><input type="text" id="f_foto_url" class="select-kidom" placeholder="https://...">
@@ -308,7 +319,37 @@
         const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm, solamente para recordarle que ${n.split(' ')[0]} tiene su sesion en 1 hora. (No olvide su mapa y su termo)`; 
         window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); 
     }
-    function validarAcceso() { if(document.getElementById('user').value === "KidOmAcademy" && document.getElementById('pass').value === "VisionFe2026") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-app-container').style.display='flex'; loadData(); calcularTotales(); } }
+
+    /* --- LÓGICA DE ACCESO MAESTRA V237 --- */
+    function validarAcceso() { 
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+
+        if(u === "KidOmAcademy" && p === "VisionFe2026") { 
+            const overlay = document.getElementById('login-overlay');
+            const card = document.querySelector('.login-card');
+            
+            // 1. Iniciar animación de lujo
+            card.classList.add('login-exit-anim');
+            
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    document.getElementById('main-app-container').style.display = 'flex';
+                    loadData(); 
+                    calcularTotales();
+                }, 500);
+            }, 500);
+        } else {
+            // 2. Alerta de error
+            alert("⚠️ ACCESO DENEGADO\nUsuario o Contraseña incorrectos. Intente de nuevo.");
+        }
+    }
+
+    // 3. Escuchar tecla ENTER en los inputs
+    document.getElementById('user').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
+    document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
 
     // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;

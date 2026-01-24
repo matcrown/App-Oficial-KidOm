@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
     
-    <link rel="manifest" href='data:application/manifest+json,{"name":"KiDOM Master Console","short_name":"KiDOM","start_url":"index.html","display":"standalone","background_color":"#2667ff","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/manifest+json,{"id":"kidom_master_v2","name":"KiDOM Master Console","short_name":"KiDOM","start_url":"./index.html?v=2","display":"standalone","background_color":"#2667ff","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="KiDOM">
+    
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
@@ -19,24 +20,21 @@
             --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; 
         }
 
-        /* AJUSTE PARA PANTALLA COMPLETA TOTAL EN IPHONE X/11/12/13/14/15 */
+        /* RESET TOTAL PARA PANTALLA COMPLETA */
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: #f3f4f6; 
+            background: var(--blue); /* Fondo azul para que no haya saltos blancos */
             margin: 0; 
             display: flex; 
             height: 100vh; 
             overflow: hidden; 
-            /* Evita que el notch bloquee contenido y permite usar toda la pantalla */
+            /* Esto empuja el contenido para que no lo tape la muesca del iPhone */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
             box-sizing: border-box;
         }
 
-        /* Resto de tu CSS (Login, Sidebar, etc) se mantiene igual... */
-        /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
+        /* --- ANIMACIÓN DE SALIDA LOGIN --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
         @keyframes loginExit {
             0% { transform: scale(1); opacity: 1; }
@@ -98,7 +96,7 @@
         .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
         .btn-logout-sidebar:hover svg { stroke: white; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; background: #f3f4f6; }
         .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
         .header img { height: 45px; }
         .tabs { display: flex; background: #e5e7eb; padding: 8px; flex-shrink: 0; }
@@ -128,7 +126,6 @@
         .card-asis.Campeones { border-color: var(--campeones); }
         .foto-wrapper { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
         .foto-est-asis { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; background: #eee; }
-        .btn-salud-pesa { position: absolute; bottom: -5px; right: -5px; background: white; color: black; border: 2px solid var(--blue); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .asis-info { flex: 1; }
         .asis-info b { font-size: 14px; color: var(--blue); cursor: pointer; display: block; text-transform: uppercase; }
         .asis-info small { font-weight: 900; font-size: 11px; color: #64748b; }
@@ -191,6 +188,7 @@
             <button class="tab-btn" id="btn-asistencia" onclick="showTab('asistencia')">REGISTRO DE ASISTENCIA</button>
             <button class="tab-btn" id="btn-calendario" onclick="showTab('calendario')">Calendario DE SESIONES KIDOM</button>
         </div>
+        
         <div id="registro" style="display: flex;">
             <div class="form-container-wrapper"><div class="tack tack-tl"></div><div class="tack tack-tr"></div><div class="tack tack-bl"></div><div class="tack tack-br"></div><div class="form-card">
                 <form id="formReg">
@@ -216,13 +214,13 @@
                 <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')">ACTUALIZAR DATOS</button>
             </div></div>
         </div>
+        
         <div id="asistencia"><div class="grid-asis" id="grid-asis"></div></div>
         <div id="calendario"><div class="semana-grid" id="semana-body"></div></div>
     </div>
 </div>
 
 <div class="modal-overlay" id="modalFirma"><div class="modal-box"><h3>FIRMA ASISTENCIA</h3><canvas id="canvasFirma"></canvas><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--blue); color:white; cursor:pointer;" onclick="confirmarAsistia()">DESCONTAR CLASE</button><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:#eee; cursor:pointer; margin-top:10px;" onclick="cerrarModal('modalFirma')">CANCELAR</button></div></div>
-<div class="modal-overlay" id="modalSalud"><div class="modal-box"><h3>FICHA MÉDICA KiDOM</h3><input type="text" id="m_est" class="select-kidom" placeholder="Estatura (cm)"><input type="text" id="m_pes" class="select-kidom" placeholder="Peso (kg)"><input type="text" id="m_ale" class="select-kidom" placeholder="Alergias"><textarea id="m_dia" class="select-kidom" placeholder="Diagnósticos" style="height:80px;"></textarea><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--dark); color:white; margin-top:10px;" onclick="cerrarModal('modalSalud')">GUARDAR DATOS</button></div></div>
 
 <script>
     const URL_APP = "https://script.google.com/macros/s/AKfycbxBDTFQPMgeueaojOIkFXe-bAf7kKRDrkLXW2Tjp9zU7gh-Ur6W55SLMIL2kx2zY8WT5Q/exec";
@@ -244,7 +242,7 @@
     function renderAsistencia(filter = 'all') {
         const grid = document.getElementById('grid-asis'); grid.innerHTML = '';
         allStudents.filter(k => filter === 'all' || k.grupo === filter).forEach((k) => {
-            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">Asistió</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">WA</button></div></div>`;
+            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">Asistió</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">WA</button></div></div>`;
         });
     }
 
@@ -266,15 +264,8 @@
         const originalText = btn.innerText;
         btn.innerText = "PROCESANDO..."; btn.disabled = true;
 
-        const plan = document.getElementById('f_plan').value;
-        const dur = document.getElementById('f_dur').value;
-        let base = (plan === "Pro") ? 8 : (plan === "Max") ? 12 : 20;
-        let meses = (dur === "Mensual") ? 1 : (dur.includes("Trimestral")) ? 3 : 12;
-        if(dur.includes("PROMO")) meses += (dur.includes("Trimestral")) ? 1 : 4;
-        let totalSesiones = base * meses;
-
         const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
         
         try { 
             await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
@@ -307,14 +298,14 @@
 
     function actualizarHorarios() { 
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
-        const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Lideres: ["LUN_17H", "MAR_16H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Campeones: ["LUN_16H", "LUN_19H", "MAR_17H", "MIE_17H", "MIE_19H", "JUE_19H", "VIE_16H", "VIE_19H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"] };
+        const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H"], Lideres: ["LUN_17H", "MAR_16H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H"], Campeones: ["LUN_16H", "LUN_19H", "MAR_17H", "MIE_17H", "MIE_19H", "JUE_19H", "VIE_16H", "VIE_19H", "SAB_09H"] };
         if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + "00"; sel.appendChild(o); });
         sel.onmousedown=function(e){e.preventDefault(); e.target.selected=!e.target.selected;};
     }
     
     function calcularTotales() { 
         const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value, m = document.getElementById('p-metodo').value; 
-        const pr = { Pro:{Mensual:65, Trimestral:180, "Trimestral PROMO":180, Anual:620}, Max:{Mensual:85, Trimestral:230, "Trimestral PROMO":230, Anual:880}, Elite:{Mensual:115, Trimestral:320, "Trimestral PROMO":320, Anual:1200} }; 
+        const pr = { Pro:{Mensual:65, Trimestral:180, Anual:620}, Max:{Mensual:85, Trimestral:230, Anual:880}, Elite:{Mensual:115, Trimestral:320, Anual:1200} }; 
         let base = pr[p][d] || 65, rec = (m==='Tarjeta')?base*0.06:0; 
         document.getElementById('row-recargo').style.display=(m==='Tarjeta')?'flex':'none'; document.getElementById('txt-recargo').innerText=`$${rec.toFixed(2)}`; 
         const sub=base/1.15; document.getElementById('txt-sub').innerText=`$${sub.toFixed(2)}`; document.getElementById('txt-iva').innerText=`$${(base-sub).toFixed(2)}`; 
@@ -385,7 +376,6 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    // REGISTRO DE SERVICE WORKER REAL (OBLIGATORIO ANDROID)
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", function() {
             navigator.serviceWorker.register("sw.js").then(function(reg) {

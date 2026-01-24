@@ -2,21 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
     
-    <link rel="manifest" href='data:application/manifest+json,{"name":"KiDOM Master Console","short_name":"KiDOM","start_url":"index.html","display":"standalone","background_color":"#f4f4f4","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
-    
-    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href='data:application/manifest+json,{"name":"KiDOM Master Console","short_name":"KiDOM","start_url":"index.html","display":"standalone","background_color":"#2667ff","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="KiDOM">
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
-        body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        :root { 
+            --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; 
+            --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; 
+        }
 
+        /* AJUSTE PARA PANTALLA COMPLETA TOTAL EN IPHONE X/11/12/13/14/15 */
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: #f3f4f6; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+            /* Evita que el notch bloquee contenido y permite usar toda la pantalla */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            box-sizing: border-box;
+        }
+
+        /* Resto de tu CSS (Login, Sidebar, etc) se mantiene igual... */
         /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
         @keyframes loginExit {
@@ -172,7 +191,6 @@
             <button class="tab-btn" id="btn-asistencia" onclick="showTab('asistencia')">REGISTRO DE ASISTENCIA</button>
             <button class="tab-btn" id="btn-calendario" onclick="showTab('calendario')">Calendario DE SESIONES KIDOM</button>
         </div>
-        
         <div id="registro" style="display: flex;">
             <div class="form-container-wrapper"><div class="tack tack-tl"></div><div class="tack tack-tr"></div><div class="tack tack-bl"></div><div class="tack tack-br"></div><div class="form-card">
                 <form id="formReg">
@@ -198,7 +216,6 @@
                 <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')">ACTUALIZAR DATOS</button>
             </div></div>
         </div>
-        
         <div id="asistencia"><div class="grid-asis" id="grid-asis"></div></div>
         <div id="calendario"><div class="semana-grid" id="semana-body"></div></div>
     </div>
@@ -320,7 +337,6 @@
     function validarAcceso() { 
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
-
         if(u === "KidOmAcademy" && p === "VisionFe2026") { 
             const overlay = document.getElementById('login-overlay');
             const card = document.querySelector('.login-card');
@@ -369,13 +385,13 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    // REGISTRO DE SERVICE WORKER REAL (NECESARIO PARA ANDROID)
+    // REGISTRO DE SERVICE WORKER REAL (OBLIGATORIO ANDROID)
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", function() {
             navigator.serviceWorker.register("sw.js").then(function(reg) {
                 console.log("Servidor KiDOM Activo");
             }).catch(function(err) {
-                console.log("Revisar sw.js en GitHub", err);
+                console.log("Error de registro", err);
             });
         });
     }

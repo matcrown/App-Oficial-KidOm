@@ -72,7 +72,6 @@
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
 
-        /* --- CONSOLA V225.0 (INTACTA) --- */
         #main-app-container { display: none; width: 100%; height: 100vh; flex-direction: row; }
         .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding-top: 30px; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; }
         .sidebar.visible { width: 85px; }
@@ -100,8 +99,6 @@
         .card-info-box { background: #fff7ed; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #ffedd5; font-size: 11px; border-left: 5px solid #f97316; color: #9a3412; display: none; }
         .cost-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; font-weight: 800; color: #64748b; }
         .cost-total { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 2px dashed #e2e8f0; font-size: 22px; font-weight: 900; color: var(--dark); }
-        
-        /* BOTONES NUEVOS INTEGRADOS */
         .btn-afiliar-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--yellow) !important; color: var(--dark) !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; }
         .btn-update-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--dark) !important; color: white !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; display: none; }
 
@@ -128,10 +125,6 @@
         .turno-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; border-radius: 10px; min-height: 45px; }
         .turno-time { font-size: 10px; font-weight: 900; color: var(--blue); margin-bottom: 5px; display: block; border-bottom: 1px solid #eee; }
         .estudiante-tag { font-size: 10px; padding: 4px 8px; border-radius: 6px; color: white; margin-bottom: 3px; display: block; font-weight: 800; cursor: pointer; text-align: center; text-transform: uppercase; }
-
-        .logo-academy-fixed { position: absolute; bottom: 20px; right: 20px; width: 120px; z-index: 1000; pointer-events: none; }
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
-        .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
         #canvasFirma { background: #f1f5f9; border: 2px dashed #ccc; border-radius: 15px; width: 100%; height: 180px; touch-action: none; }
     </style>
 </head>
@@ -193,7 +186,6 @@
                 <div id="info-tarjeta" class="card-info-box">Recargo Payphone del <b>6%</b> incluido en el total.</div>
                 <button id="btn-link-pago" class="select-kidom" style="background:var(--blue); color:white; font-weight:900; cursor:pointer; display:none; margin-top:15px;" onclick="abrirLinkTarjeta()">ABRIR LINK DE PAGO</button>
                 <div style="margin-top:20px; text-align:left;"><div class="cost-row"><span>Subtotal:</span><span id="txt-sub">$0.00</span></div><div class="cost-row"><span>IVA (15%):</span><span id="txt-iva">$0.00</span></div><div class="cost-row" id="row-recargo" style="display:none; color:#f97316;"><span>Recargo (6%):</span><span id="txt-recargo">$0.00</span></div><div class="cost-total"><span>Total:</span><span id="res-tot">$65.00</span></div></div>
-                
                 <button type="button" id="btn-afiliar-main" class="btn-afiliar-kidom" onclick="ejecutarAccion('register')">AFILIAR Miembro KiDOM</button>
                 <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')">ACTUALIZAR DATOS</button>
             </div></div>
@@ -251,7 +243,6 @@
 
         const plan = document.getElementById('f_plan').value;
         const dur = document.getElementById('f_dur').value;
-        
         let base = (plan === "Pro") ? 8 : (plan === "Max") ? 12 : 20;
         let meses = (dur === "Mensual") ? 1 : (dur.includes("Trimestral")) ? 3 : 12;
         if(dur.includes("PROMO")) meses += (dur.includes("Trimestral")) ? 1 : 4;
@@ -319,43 +310,23 @@
     }
     function validarAcceso() { if(document.getElementById('user').value === "KidOmAcademy" && document.getElementById('pass').value === "VisionFe2026") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-app-container').style.display='flex'; loadData(); calcularTotales(); } }
 
-    // --- SECCIÓN DE FIRMA CON SOPORTE TÁCTIL (MOVIL/TABLET) ---
+    // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
-
-    function startDrawing(e) {
-        drawing = true;
-        draw(e);
-    }
-    function stopDrawing() {
-        drawing = false;
-        ctx.beginPath();
-    }
+    function startDrawing(e) { drawing = true; draw(e); }
+    function stopDrawing() { drawing = false; ctx.beginPath(); }
     function draw(e) {
         if (!drawing) return;
         e.preventDefault(); 
-        
-        ctx.lineWidth = 3;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#2667ff';
-
+        ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.strokeStyle = '#2667ff';
         let clientX = e.touches ? e.touches[0].clientX : e.clientX;
         let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
         let r = canvas.getBoundingClientRect();
-        ctx.lineTo(clientX - r.left, clientY - r.top);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(clientX - r.left, clientY - r.top);
+        ctx.lineTo(clientX - r.left, clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(clientX - r.left, clientY - r.top);
     }
+    canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('touchstart', startDrawing);
-    canvas.addEventListener('touchend', stopDrawing);
-    canvas.addEventListener('touchmove', draw);
-
-    // REGISTRO SERVICE WORKER PARA PWA
+    // REGISTRO PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('data:text/javascript,self.addEventListener(\'fetch\', function(event) {});');
     }

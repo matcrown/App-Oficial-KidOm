@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
+    <title>KiDOM Master</title>
     
-    <link rel="manifest" href='data:application/manifest+json,{"id":"kidom_pwa_v3","name":"KiDOM","short_name":"KiDOM","start_url":"index.html?pwa=true","display":"standalone","background_color":"#2667ff","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/manifest+json,{"id":"kidom_final_v4","name":"KiDOM","short_name":"KiDOM","start_url":"index.html","display":"standalone","background_color":"#2667ff","theme_color":"#2667ff","icons":[{"src":"https://i.imgur.com/ZVERytB.png","sizes":"512x512","type":"image/png"}]}'>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="KiDOM">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
-    <link rel="apple-touch-startup-image" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
         
-        /* AJUSTE PARA PANTALLA COMPLETA REAL */
+        /* AJUSTE PARA PANTALLA COMPLETA TOTAL */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background: var(--blue); 
@@ -27,176 +26,97 @@
             display: flex; 
             height: 100vh; 
             overflow: hidden; 
-            /* Esto absorbe el notch y la barra inferior de navegación de iOS */
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            /* Absorbe el Notch del iPhone X */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
             box-sizing: border-box;
         }
 
-        /* Mantengo todo tu estilo intacto */
-        .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
-        @keyframes loginExit { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.25); opacity: 0; filter: blur(15px); } }
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f4f4f4; background-image: url("https://www.transparenttextures.com/patterns/felt.png"); display: flex; align-items: center; justify-content: center; z-index: 99999; overflow: hidden; transition: opacity 0.5s; }
-        .polaroid { position: absolute; background: white; padding: 12px 12px 35px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 3px; z-index: 2; filter: blur(2px); opacity: 0.85; }
-        .polaroid img { width: 320px; height: 320px; object-fit: cover; border: 1px solid #eee; }
-        .tack-gold { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 25px; height: 25px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; box-shadow: 2px 2px 6px rgba(0,0,0,0.4); }
-        .p1 { top: -5%; left: -2%; transform: rotate(-12deg); } .p2 { top: -8%; right: -3%; transform: rotate(15deg); } .p3 { bottom: -5%; left: 0%; transform: rotate(10deg); } .p4 { bottom: -7%; right: -2%; transform: rotate(-15deg); } .p5 { top: 20%; left: 15%; transform: rotate(-5deg); } .p6 { top: 50%; right: 18%; transform: rotate(8deg); } .p7 { top: 0%; left: 35%; transform: rotate(5deg); } .p8 { bottom: -10%; left: 25%; transform: rotate(-10deg); } .p9 { top: 25%; left: 0%; transform: rotate(20deg); } .p10 { top: 20%; right: 1%; transform: rotate(-12deg); } .p11 { bottom: 50%; right: 25%; transform: rotate(12deg); }
-        .login-card { position: relative; z-index: 100; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(25px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.5); padding: 40px; border-radius: 60px; width: 280px; text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.15); }
-        .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
-        .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
+        /* --- ESTILOS DE LOGIN --- */
+        .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; }
+        @keyframes loginExit { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.2); opacity: 0; filter: blur(10px); } }
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f4f4f4; background-image: url("https://www.transparenttextures.com/patterns/felt.png"); display: flex; align-items: center; justify-content: center; z-index: 99999; transition: 0.5s; }
+        .login-card { position: relative; z-index: 100; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); padding: 40px; border-radius: 60px; width: 280px; text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
+        .login-input { width: 100%; padding: 12px; border-radius: 15px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: white; }
+        .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-family: 'Montserrat'; }
+
+        /* --- ESTRUCTURA APP --- */
         #main-app-container { display: none; width: 100%; height: 100vh; flex-direction: row; }
-        .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding: 30px 0 20px 0; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; position: relative; }
-        .sidebar.visible { width: 85px; }
-        .filter-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent; font-weight: 900; cursor: pointer; border: 2px solid #ccc; transition: 0.3s; font-size: 18px; color: #666; }
-        .filter-circle.active.all { border-color: var(--blue); background: var(--blue); color: white; }
-        .filter-circle.active.e { border-color: var(--exploradores); background: var(--exploradores); color: white; }
-        .filter-circle.active.l { border-color: var(--lideres); background: var(--lideres); color: white; }
-        .filter-circle.active.c { border-color: var(--campeones); background: var(--campeones); color: white; }
-        .btn-logout-sidebar { margin-top: auto; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: 2px solid #e2e8f0; cursor: pointer; font-size: 20px; transition: 0.3s; }
-        .btn-logout-sidebar:hover { background: var(--red); color: white; border-color: var(--red); }
-        .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
-        .btn-logout-sidebar:hover svg { stroke: white; }
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; background: #f3f4f6; }
-        .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
-        .header img { height: 45px; }
-        .tabs { display: flex; background: #e5e7eb; padding: 8px; flex-shrink: 0; }
-        .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
-        .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
-        .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
-        .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
-        .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
-        .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
-        .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
-        .bank-info-box { background: #eff6ff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #bfdbfe; font-size: 11px; border-left: 5px solid var(--blue); color: var(--dark); line-height: 1.6; display: none; }
-        .card-info-box { background: #fff7ed; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #ffedd5; font-size: 11px; border-left: 5px solid #f97316; color: #9a3412; display: none; }
-        .cost-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; font-weight: 800; color: #64748b; }
-        .cost-total { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 2px dashed #e2e8f0; font-size: 22px; font-weight: 900; color: var(--dark); }
-        .btn-afiliar-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--yellow) !important; color: var(--dark) !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; }
-        .btn-update-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--dark) !important; color: white !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; display: none; }
-        #asistencia { display: none; flex: 1; padding: 20px; overflow-y: auto; }
-        .grid-asis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding-right: 10px; }
-        .card-asis { background: white; border-radius: 25px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 2px solid #f1f5f9; position: relative; }
-        .card-asis.Exploradores { border-color: var(--exploradores); }
-        .card-asis.Lideres { border-color: var(--lideres); }
-        .card-asis.Campeones { border-color: var(--campeones); }
-        .foto-wrapper { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
-        .foto-est-asis { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; background: #eee; }
-        .asis-info { flex: 1; }
-        .asis-info b { font-size: 14px; color: var(--blue); cursor: pointer; display: block; text-transform: uppercase; }
-        .asis-info small { font-weight: 900; font-size: 11px; color: #64748b; }
-        .asis-actions { display: flex; flex-direction: column; gap: 6px; }
-        .btn-asistio-go { background: var(--blue); color: white; border: none; padding: 8px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 10px; text-transform: uppercase; }
-        .btn-wa-asis { background: var(--green-wa); color: white; border: none; padding: 8px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 10px; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; }
-        #calendario { display: none; flex: 1; overflow: auto; padding: 20px; }
-        .semana-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; min-width: 1000px; }
-        .dia-col { background: white; border-radius: 18px; padding: 12px; border: 1px solid #eee; display: flex; flex-direction: column; gap: 10px; }
-        .dia-header { background: var(--blue); color: white; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 900; text-transform: uppercase; }
-        .turno-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; border-radius: 10px; min-height: 45px; }
-        .turno-time { font-size: 10px; font-weight: 900; color: var(--blue); margin-bottom: 5px; display: block; border-bottom: 1px solid #eee; }
-        .estudiante-tag { font-size: 10px; padding: 4px 8px; border-radius: 6px; color: white; margin-bottom: 3px; display: block; font-weight: 800; cursor: pointer; text-align: center; text-transform: uppercase; }
-        #canvasFirma { background: #f1f5f9; border: 2px dashed #ccc; border-radius: 15px; width: 100%; height: 180px; touch-action: none; }
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
-        .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
+        .sidebar { width: 85px; background: white; display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 15px; border-right: 1px solid #eee; }
+        .filter-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; border: 2px solid #ccc; color: #666; }
+        .filter-circle.active.all { background: var(--blue); color: white; border-color: var(--blue); }
+        
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #f3f4f6; }
+        .header { background: var(--blue); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 20px; }
+        .header img { height: 35px; }
+        .tabs { display: flex; background: #e5e7eb; padding: 5px; }
+        .tab-btn { flex: 1; padding: 15px; border: none; font-weight: 900; cursor: pointer; border-radius: 10px; background: transparent; color: #64748b; font-size: 12px; }
+        .tab-btn.active { background: var(--yellow); color: var(--dark); }
+
+        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; gap: 20px; }
+        .form-card, .cost-card { background: white; padding: 25px; border-radius: 30px; border: 2px solid var(--blue); width: 100%; max-width: 400px; }
+        .label-kidom { display: block; margin-top: 10px; font-weight: 800; font-size: 10px; color: var(--blue); text-transform: uppercase; text-align: left; }
+        .select-kidom { width: 100%; padding: 10px; margin-top: 5px; border-radius: 10px; border: 1px solid #eee; font-family: 'Montserrat'; font-weight: 700; }
+        
+        #asistencia { display: none; flex: 1; padding: 15px; overflow-y: auto; }
+        .grid-asis { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        .card-asis { background: white; border-radius: 20px; padding: 10px; display: flex; align-items: center; gap: 10px; border: 1px solid #eee; }
+        .foto-est-asis { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 100000; align-items:center; justify-content:center; }
+        .modal-box { background: white; padding: 20px; border-radius: 25px; width: 90%; max-width: 350px; text-align: center; }
+        canvas { background: #f1f5f9; border: 1px dashed #ccc; border-radius: 10px; width: 100%; height: 150px; }
     </style>
 </head>
 <body>
 
 <div id="login-overlay">
-    <div class="polaroid p1"><div class="tack-gold"></div><img src="https://i.imgur.com/wgRSAm5.png"></div>
-    <div class="polaroid p2"><div class="tack-gold"></div><img src="https://i.imgur.com/9RFqBpW.jpeg"></div>
-    <div class="polaroid p3"><div class="tack-gold"></div><img src="https://i.imgur.com/r0V0SAT.jpeg"></div>
-    <div class="polaroid p4"><div class="tack-gold"></div><img src="https://i.imgur.com/BoHQKTQ.jpeg"></div>
-    <div class="polaroid p5"><div class="tack-gold"></div><img src="https://i.imgur.com/jNaHsKa.jpeg"></div>
-    <div class="polaroid p6"><div class="tack-gold"></div><img src="https://i.imgur.com/vWChTtr.jpeg"></div>
-    <div class="polaroid p7"><div class="tack-gold"></div><img src="https://i.imgur.com/19T2j4K.jpeg"></div>
-    <div class="polaroid p8"><div class="tack-gold"></div><img src="https://i.imgur.com/SEk9KlI.jpeg"></div>
-    <div class="polaroid p9"><div class="tack-gold"></div><img src="https://i.imgur.com/Xis8ub1.png"></div>
-    <div class="polaroid p10"><div class="tack-gold"></div><img src="https://i.imgur.com/WLJXedN.png"></div>
-    <div class="polaroid p11"><div class="tack-gold"></div><img src="https://i.imgur.com/vOTT1fE.png"></div>
     <div class="login-card">
-        <img src="https://i.imgur.com/TffJPDG.png" width="180" style="margin-bottom: 25px;">
+        <img src="https://i.imgur.com/TffJPDG.png" width="150" style="margin-bottom: 20px;">
         <input type="text" id="user" class="login-input" placeholder="USUARIO">
-        <input type="password" id="pass" class="login-input" placeholder="CONTRASEÑA CORPORATIVA">
-        <button class="btn-login-go" onclick="validarAcceso()">INICIAR SESION</button>
+        <input type="password" id="pass" class="login-input" placeholder="CONTRASEÑA">
+        <button class="btn-login-go" onclick="validarAcceso()">ENTRAR</button>
     </div>
 </div>
 
 <div id="main-app-container">
-    <div class="sidebar" id="sidebar">
-        <div class="filter-circle active all" onclick="filterGroup('all', this)">ALL</div>
-        <div class="filter-circle e" onclick="filterGroup('Exploradores', this)">E</div>
-        <div class="filter-circle l" onclick="filterGroup('Lideres', this)">L</div>
-        <div class="filter-circle c" onclick="filterGroup('Campeones', this)">C</div>
-        <button class="btn-logout-sidebar" onclick="cerrarSesion()" title="Cerrar Sesión">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-        </button>
+    <div class="sidebar">
+        <div class="filter-circle active all" onclick="location.reload()">ALL</div>
+        <div style="margin-top: auto; cursor:pointer;" onclick="location.reload()">🚪</div>
     </div>
     <div class="main-content">
-        <div class="header"><img src="https://i.imgur.com/bls27zm.png"><span>OFICINA VIRTUAL - KIDOM ACADEMY</span><img src="https://i.imgur.com/bls27zm.png"></div>
+        <div class="header"><img src="https://i.imgur.com/bls27zm.png"><span>KIDOM ACADEMY</span><img src="https://i.imgur.com/bls27zm.png"></div>
         <div class="tabs">
-            <button class="tab-btn active" id="btn-registro" onclick="showTab('registro')">AFILIACION</button>
-            <button class="tab-btn" id="btn-asistencia" onclick="showTab('asistencia')">ASISTENCIA</button>
-            <button class="tab-btn" id="btn-calendario" onclick="showTab('calendario')">CALENDARIO</button>
+            <button class="tab-btn active" onclick="showTab('registro')">AFILIACIÓN</button>
+            <button class="tab-btn" onclick="showTab('asistencia')">ASISTENCIA</button>
         </div>
         
         <div id="registro" style="display: flex;">
-            <div class="form-container-wrapper"><div class="form-card">
-                <form id="formReg">
-                    <label class="label-kidom">FOTO URL</label><input type="text" id="f_foto_url" class="select-kidom">
-                    <label class="label-kidom">ESTUDIANTE</label><input type="text" id="f_nombre" class="select-kidom" required>
-                    <label class="label-kidom">REPRESENTANTE</label><input type="text" id="f_rep" class="select-kidom" required>
-                    <label class="label-kidom">GRUPO</label><select id="sel-grupo" class="select-kidom" onchange="actualizarHorarios()" required><option value="">Seleccionar...</option><option value="Exploradores">Exploradores</option><option value="Lideres">Lideres</option><option value="Campeones">Campeones</option></select>
-                    <label class="label-kidom">HORARIOS</label><select id="sel-horario" class="select-kidom" multiple style="height: 100px;"></select>
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:1;"><label class="label-kidom">Plan</label><select id="f_plan" class="select-kidom" onchange="calcularTotales()"><option value="Pro">Pro</option><option value="Max">Max</option><option value="Elite">Elite</option></select></div>
-                        <div style="flex:1;"><label class="label-kidom">DURACION</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Anual">Anual</option></select></div>
-                    </div>
-                    <label class="label-kidom">WhatsApp</label><input type="tel" id="f_wa" class="select-kidom" placeholder="57..." required>
-                </form>
-            </div></div>
-            <div class="form-container-wrapper"><div class="cost-card">
-                <label class="label-kidom">Método</label><select id="p-metodo" class="select-kidom" onchange="gestionarMetodoPago()"><option value="Efectivo">Efectivo</option><option value="Transferencia">Transferencia</option><option value="Tarjeta">Tarjeta</option></select>
-                <div id="div-bancos" style="display:none; margin-top:10px;"><select id="sel-banco" class="select-kidom" onchange="mostrarInfoBanco()"><option value="">Banco...</option><option value="Pichincha">Pichincha</option><option value="Austro">Austro</option></select><div id="info-banco" class="bank-info-box"></div></div>
-                <div style="margin-top:20px; text-align:left;"><div class="cost-row"><span>Subtotal:</span><span id="txt-sub">$0.00</span></div><div class="cost-row"><span>IVA:</span><span id="txt-iva">$0.00</span></div><div class="cost-total"><span>Total:</span><span id="res-tot">$65.00</span></div></div>
-                <button type="button" id="btn-afiliar-main" class="btn-afiliar-kidom" onclick="ejecutarAccion('register')">AFILIAR</button>
-                <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')">ACTUALIZAR</button>
-            </div></div>
+            <div class="form-card">
+                <label class="label-kidom">Estudiante</label><input type="text" id="f_nombre" class="select-kidom">
+                <label class="label-kidom">Grupo</label><select id="sel-grupo" class="select-kidom"><option>Exploradores</option><option>Lideres</option><option>Campeones</option></select>
+                <button class="btn-login-go" style="margin-top:20px; width:100%;" onclick="alert('Datos listos')">GUARDAR</button>
+            </div>
         </div>
+        
         <div id="asistencia"><div class="grid-asis" id="grid-asis"></div></div>
-        <div id="calendario"><div class="semana-grid" id="semana-body"></div></div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalFirma"><div class="modal-box"><h3>FIRMA ASISTENCIA</h3><canvas id="canvasFirma"></canvas><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--blue); color:white;" onclick="confirmarAsistia()">GUARDAR</button><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:#eee; margin-top:10px;" onclick="cerrarModal('modalFirma')">CERRAR</button></div></div>
+<div class="modal-overlay" id="modalFirma"><div class="modal-box"><h3>FIRMA AQUÍ</h3><canvas id="canvasFirma"></canvas><button class="btn-login-go" style="width:100%; margin-top:10px;" onclick="cerrarModal('modalFirma')">CONFIRMAR</button></div></div>
 
 <script>
     const URL_APP = "https://script.google.com/macros/s/AKfycbxBDTFQPMgeueaojOIkFXe-bAf7kKRDrkLXW2Tjp9zU7gh-Ur6W55SLMIL2kx2zY8WT5Q/exec";
-    const LP = { Pro: { Mensual: "https://ppls.me/oYO7HdAY2uDaitKIp17hhQ" }, Max: { Mensual: "https://ppls.me/wUQ10WYSVVnhPfg2EoYYhA" }, Elite: { Mensual: "https://ppls.me/Fvgd6XbcxNS8IRh1dBzUg" } };
-    const DB = { Pichincha: "Ahorros: 2201732707", Austro: "Ahorros: 3000867844" };
-    let allStudents = []; let currentKidName = null;
+    let allStudents = [];
 
-    async function loadData() { try { const res = await fetch(URL_APP + "?action=read"); const data = await res.json(); allStudents = data.map(s => ({ nombre: s.nombre, rep: s.representante, grupo: s.grupo, clases: parseInt(s.sesiones) || 0, wa: s.whatsapp, horarios: s.horarios || "", foto: s.foto || "" })).sort((a, b) => a.nombre.localeCompare(b.nombre)); renderAsistencia(); renderCalendario(); } catch(e){} }
-    function renderAsistencia(filter = 'all') { const grid = document.getElementById('grid-asis'); grid.innerHTML = ''; allStudents.filter(k => filter === 'all' || k.grupo === filter).forEach((k) => { grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">OK</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">WA</button></div></div>`; }); }
-    function renderCalendario(filter = 'all') { const body = document.getElementById('semana-body'); const diasT = ["LUN", "MAR", "MIE", "JUE", "VIE", "SAB"], diasN = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"], horas = ["09H", "15H", "16H", "17H", "18H", "19H"]; body.innerHTML = diasN.map((dn, i) => { let col = `<div class="dia-col"><div class="dia-header">${dn}</div>`; horas.forEach(h => { let tag = `${diasT[i]}_${h}`; let kids = allStudents.filter(s => s.horarios.includes(tag) && (filter==='all' || s.grupo===filter)); if(kids.length > 0) col += `<div class="turno-box"><span class="turno-time">${h}00</span>${kids.map(k => `<span class="estudiante-tag" style="background:var(--${k.grupo.toLowerCase()})">${k.nombre.split(' ')[0]}</span>`).join('')}</div>`; }); return col + `</div>`; }).join(''); }
-    async function ejecutarAccion(modo) { const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main'); const originalText = btn.innerText; btn.innerText = "..."; const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(','); const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&horarios=${encodeURIComponent(h)}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`; try { await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); alert("OK"); loadData(); } catch(e){} finally { btn.innerText = originalText; } }
-    function showTab(t) { ['registro', 'asistencia', 'calendario'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById(t).style.display = (t === 'registro') ? 'flex' : 'block'; document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('btn-' + t).classList.add('active'); if(t!=='registro') loadData(); }
-    function abrirFirma(name) { currentKidName = name; ctx.clearRect(0,0,canvas.width,canvas.height); document.getElementById('modalFirma').style.display = 'flex'; }
-    async function confirmarAsistia() { await fetch(`${URL_APP}?action=asistencia&nombre=${encodeURIComponent(currentKidName)}&sesiones=-1`, { mode: 'no-cors' }); document.getElementById('modalFirma').style.display = 'none'; loadData(); }
+    async function loadData() { try { const res = await fetch(URL_APP + "?action=read"); const data = await res.json(); allStudents = data; renderAsistencia(); } catch(e){} }
+    function renderAsistencia() { const grid = document.getElementById('grid-asis'); grid.innerHTML = ''; allStudents.forEach(k => { grid.innerHTML += `<div class="card-asis"><img src="${k.foto || 'https://via.placeholder.com/50'}" class="foto-est-asis"><div><b>${k.nombre}</b><br><small>${k.sesiones} CLASES</small></div><button onclick="document.getElementById('modalFirma').style.display='flex'">📝</button></div>`; }); }
+    function showTab(t) { document.getElementById('registro').style.display = (t==='registro')?'flex':'none'; document.getElementById('asistencia').style.display = (t==='asistencia')?'block':'none'; if(t==='asistencia') loadData(); }
+    function validarAcceso() { if(document.getElementById('user').value === "KidOmAcademy" && document.getElementById('pass').value === "VisionFe2026") { document.querySelector('.login-card').classList.add('login-exit-anim'); setTimeout(() => { document.getElementById('login-overlay').style.display = 'none'; document.getElementById('main-app-container').style.display = 'flex'; }, 600); } }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
-    function enviarWA(n, r, w) { const msg = `Hola ${r}, recordamos la sesión de ${n} en 1 hora.`; window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); }
-    function validarAcceso() { const u = document.getElementById('user').value, p = document.getElementById('pass').value; if(u === "KidOmAcademy" && p === "VisionFe2026") { const overlay = document.getElementById('login-overlay'); document.querySelector('.login-card').classList.add('login-exit-anim'); setTimeout(() => { overlay.style.display = 'none'; document.getElementById('main-app-container').style.display = 'flex'; loadData(); }, 600); } else { alert("Error"); } }
-    function cerrarSesion() { location.reload(); }
-    let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
-    canvas.addEventListener('mousedown', () => drawing = true); canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
-    canvas.addEventListener('mousemove', (e) => { if(!drawing) return; ctx.lineWidth = 3; ctx.lineCap = 'round'; let r = canvas.getBoundingClientRect(); ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top); });
-    
-    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").then(() => console.log("SW OK")); }
+
+    // Service Worker Dummy para Android
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 </script>
 </body>
 </html>

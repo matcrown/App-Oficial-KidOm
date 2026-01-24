@@ -317,7 +317,6 @@
         window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); 
     }
 
-    /* --- LÓGICA DE ACCESO MAESTRA V237 --- */
     function validarAcceso() { 
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
@@ -355,7 +354,6 @@
         showTab('registro');
     }
 
-    // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
     function startDrawing(e) { drawing = true; draw(e); }
     function stopDrawing() { drawing = false; ctx.beginPath(); }
@@ -371,13 +369,13 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    // REGISTRO PWA FORZADO
+    // REGISTRO DE SERVICE WORKER REAL (NECESARIO PARA ANDROID)
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", function() {
-            navigator.serviceWorker.register("data:text/javascript;base64,c2VsZi.xhZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ZW50ID0+IHsgZXZlbnQucmVzcG9uZFdpdGgoZmV0Y2goZXZlbnQucmVxdWVzdCkpOyB9KTs=").then(function(reg) {
-                console.log("SW registrado");
+            navigator.serviceWorker.register("sw.js").then(function(reg) {
+                console.log("Servidor KiDOM Activo");
             }).catch(function(err) {
-                console.log("Error SW", err);
+                console.log("Revisar sw.js en GitHub", err);
             });
         });
     }

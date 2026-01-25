@@ -5,41 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
     
-    <link rel="manifest" href="data:application/manifest+json,
-    {
-      'name': 'KiDOM Master Console',
-      'short_name': 'KiDOM',
-      'start_url': '.',
-      'display': 'standalone',
-      'background_color': '#2667ff',
-      'theme_color': '#2667ff',
-      'icons': [{'src': 'https://i.imgur.com/ZVERytB.png','sizes': '512x512','type': 'image/png'}]
-    }">
-    
+    <link rel="manifest" href="data:application/manifest+json,{'name':'KiDOM','short_name':'KiDOM','start_url':'.','display':'standalone','background_color':'#2667ff','theme_color':'#2667ff','icons':[{'src':'https://i.imgur.com/ZVERytB.png','sizes':'512x512','type':'image/png'}]}">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* INMUNIDAD AL ZOOM DE ANDROID */
-        html {
-            -webkit-text-size-adjust: none;
-            text-size-adjust: none;
-            height: 100%;
-            width: 100%;
-        }
-
+        html { -webkit-text-size-adjust: none; text-size-adjust: none; }
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
         
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: var(--blue); /* Fondo azul base para que no se vean bordes blancos en el APK */
+            background: #f3f4f6; 
             margin: 0; 
             display: flex; 
             height: 100vh; 
-            overflow: hidden; 
+            overflow: hidden;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             box-sizing: border-box;
         }
@@ -106,14 +88,13 @@
         .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
         .btn-logout-sidebar:hover svg { stroke: white; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; background: #f3f4f6;}
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
         .header img { height: 45px; }
         .tabs { display: flex; background: #e5e7eb; padding: 8px; flex-shrink: 0; }
         .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        /* SCROLL REPARADO PARA AFILIACIÓN */
         #registro { 
             flex: 1; 
             display: none; 
@@ -127,8 +108,8 @@
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
+        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
+        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
         
         .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
         .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
@@ -221,7 +202,7 @@
                     <label class="label-kidom">HORARIOS ASIGNADOS KIDOM</label><select id="sel-horario" class="select-kidom" multiple style="height: 110px;"></select>
                     <div style="display:flex; gap:10px;">
                         <div style="flex:1;"><label class="label-kidom">Plan KIDOM</label><select id="f_plan" class="select-kidom" onchange="calcularTotales()"><option value="Pro">Pro</option><option value="Max">Max</option><option value="Elite">Elite</option></select></div>
-                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Anual">Anual</option></select></div>
+                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Trimestral PROMO">Trimestral PROMO</option><option value="Anual">Anual</option><option value="Anual PROMO">Anual PROMO</option></select></div>
                     </div>
                     <label class="label-kidom">WhatsApp</label><input type="tel" id="f_wa" class="select-kidom" placeholder="57..." required>
                 </form>
@@ -338,9 +319,18 @@
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
     function enviarWA(n, r, w) { const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm...`; window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); }
 
+    /* FUNCIÓN MAESTRA DE PANTALLA COMPLETA */
     function validarAcceso() { 
         const u = document.getElementById('user').value; const p = document.getElementById('pass').value;
         if(u === "KidOmAcademy" && p === "VisionFe2026") { 
+            
+            // INTENTO DE FORZAR FULLSCREEN INMERSIVO EN ANDROID
+            const docElm = document.documentElement;
+            if (docElm.requestFullscreen) { docElm.requestFullscreen(); }
+            else if (docElm.mozRequestFullScreen) { docElm.mozRequestFullScreen(); }
+            else if (docElm.webkitRequestFullScreen) { docElm.webkitRequestFullScreen(); }
+            else if (docElm.msRequestFullscreen) { docElm.msRequestFullscreen(); }
+
             const overlay = document.getElementById('login-overlay'); const card = document.querySelector('.login-card');
             card.classList.add('login-exit-anim'); setTimeout(() => { overlay.style.display = 'none'; document.getElementById('main-app-container').style.display = 'flex'; loadData(); calcularTotales(); }, 600);
         } else { alert("Usuario/Contraseña incorrectos"); }
@@ -366,13 +356,7 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js").then(function(reg) {
-            console.log("SW OK");
-        }).catch(function(err) {
-            console.log("SW Error", err);
-        });
-    }
+    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(e => console.log(e)); }
 </script>
 </body>
 </html>

@@ -27,20 +27,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        html { -webkit-text-size-adjust: none; text-size-adjust: none; }
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: #f3f4f6; 
-            margin: 0; 
-            display: flex; 
-            height: 100vh; 
-            overflow: hidden;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            box-sizing: border-box;
-        }
+        body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
+        /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
         @keyframes loginExit {
             0% { transform: scale(1); opacity: 1; }
@@ -77,15 +67,14 @@
         .p10 { top: 20%; right: 1%; transform: rotate(-12deg); }
         .p11 { bottom: 50%; right: 25%; transform: rotate(12deg); }
 
+        /* TARJETA DE LOGIN ORIGINAL REPARADA */
         .login-card { 
             position: relative; z-index: 100;
             background: rgba(255, 255, 255, 0.3); 
             backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 40px; border-radius: 60px; 
-            width: 85%; max-width: 280px; text-align: center;
+            padding: 40px; border-radius: 60px; width: 280px; text-align: center;
             box-shadow: 0 40px 80px rgba(0,0,0,0.15);
-            box-sizing: border-box;
         }
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
@@ -111,24 +100,22 @@
         .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        /* ARREGLO DE SCROLL EN AFILIACIÓN */
+        /* SCROLL REPARADO SIN AFECTAR DISEÑO */
         #registro { 
             flex: 1; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             padding: 10px 20px; 
-            overflow-y: auto; /* Permite scroll vertical */
-            overflow-x: hidden;
+            overflow-y: auto; 
             gap: 25px; 
-            flex-wrap: wrap; /* Permite que las tarjetas bajen si no caben de ancho */
+            flex-wrap: wrap; 
         }
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
-        
+        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
+        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
         .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
         .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
         .bank-info-box { background: #eff6ff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #bfdbfe; font-size: 11px; border-left: 5px solid var(--blue); color: var(--dark); line-height: 1.6; display: none; }
@@ -220,7 +207,7 @@
                     <label class="label-kidom">HORARIOS ASIGNADOS KIDOM</label><select id="sel-horario" class="select-kidom" multiple style="height: 110px;"></select>
                     <div style="display:flex; gap:10px;">
                         <div style="flex:1;"><label class="label-kidom">Plan KIDOM</label><select id="f_plan" class="select-kidom" onchange="calcularTotales()"><option value="Pro">Pro</option><option value="Max">Max</option><option value="Elite">Elite</option></select></div>
-                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Anual">Anual</option></select></div>
+                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Trimestral PROMO">Trimestral PROMO</option><option value="Anual">Anual</option><option value="Anual PROMO">Anual PROMO</option></select></div>
                     </div>
                     <label class="label-kidom">WhatsApp</label><input type="tel" id="f_wa" class="select-kidom" placeholder="57..." required>
                 </form>

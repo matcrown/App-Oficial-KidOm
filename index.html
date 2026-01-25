@@ -27,12 +27,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* AJUSTE PARA BLOQUEAR ESCALADO DE TEXTO EN ANDROID */
-        html {
-            -webkit-text-size-adjust: none;
-            text-size-adjust: none;
-        }
-
+        html { -webkit-text-size-adjust: none; text-size-adjust: none; }
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
         
         body { 
@@ -42,12 +37,10 @@
             display: flex; 
             height: 100vh; 
             overflow: hidden;
-            /* Soporte para notch en modo inmersivo */
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             box-sizing: border-box;
         }
 
-        /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
         @keyframes loginExit {
             0% { transform: scale(1); opacity: 1; }
@@ -118,12 +111,24 @@
         .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
+        /* ARREGLO DE SCROLL EN AFILIACIÓN */
+        #registro { 
+            flex: 1; 
+            display: none; 
+            align-items: flex-start; 
+            justify-content: center; 
+            padding: 10px 20px; 
+            overflow-y: auto; /* Permite scroll vertical */
+            overflow-x: hidden;
+            gap: 25px; 
+            flex-wrap: wrap; /* Permite que las tarjetas bajen si no caben de ancho */
+        }
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 100%; box-sizing: border-box; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 100%; box-sizing: border-box; }
+        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
+        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
+        
         .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
         .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
         .bank-info-box { background: #eff6ff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #bfdbfe; font-size: 11px; border-left: 5px solid var(--blue); color: var(--dark); line-height: 1.6; display: none; }
@@ -215,7 +220,7 @@
                     <label class="label-kidom">HORARIOS ASIGNADOS KIDOM</label><select id="sel-horario" class="select-kidom" multiple style="height: 110px;"></select>
                     <div style="display:flex; gap:10px;">
                         <div style="flex:1;"><label class="label-kidom">Plan KIDOM</label><select id="f_plan" class="select-kidom" onchange="calcularTotales()"><option value="Pro">Pro</option><option value="Max">Max</option><option value="Elite">Elite</option></select></div>
-                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Trimestral PROMO">Trimestral PROMO</option><option value="Anual">Anual</option><option value="Anual PROMO">Anual PROMO</option></select></div>
+                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Anual">Anual</option></select></div>
                     </div>
                     <label class="label-kidom">WhatsApp</label><input type="tel" id="f_wa" class="select-kidom" placeholder="57..." required>
                 </form>
@@ -280,23 +285,9 @@
         const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main');
         const originalText = btn.innerText;
         btn.innerText = "PROCESANDO..."; btn.disabled = true;
-
-        const plan = document.getElementById('f_plan').value;
-        const dur = document.getElementById('f_dur').value;
-        let base = (plan === "Pro") ? 8 : (plan === "Max") ? 12 : 20;
-        let meses = (dur === "Mensual") ? 1 : (dur.includes("Trimestral")) ? 3 : 12;
-        if(dur.includes("PROMO")) meses += (dur.includes("Trimestral")) ? 1 : 4;
-        let totalSesiones = base * meses;
-
         const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
-        
-        try { 
-            await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
-            alert("ÉXITO"); 
-            limpiarForm();
-            loadData(); 
-        } catch(e){} finally { btn.innerText = originalText; btn.disabled = false; }
+        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+        try { await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); alert("ÉXITO"); limpiarForm(); loadData(); } catch(e){} finally { btn.innerText = originalText; btn.disabled = false; }
     }
 
     function limpiarForm() {
@@ -329,7 +320,7 @@
     
     function calcularTotales() { 
         const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value, m = document.getElementById('p-metodo').value; 
-        const pr = { Pro:{Mensual:65, Trimestral:180, "Trimestral PROMO":180, Anual:620}, Max:{Mensual:85, Trimestral:230, "Trimestral PROMO":230, Anual:880}, Elite:{Mensual:115, Trimestral:320, "Trimestral PROMO":320, Anual:1200} }; 
+        const pr = { Pro:{Mensual:65, Trimestral:180, Anual:620}, Max:{Mensual:85, Trimestral:230, Anual:880}, Elite:{Mensual:115, Trimestral:320, Anual:1200} }; 
         let base = pr[p][d] || 65, rec = (m==='Tarjeta')?base*0.06:0; 
         document.getElementById('row-recargo').style.display=(m==='Tarjeta')?'flex':'none'; document.getElementById('txt-recargo').innerText=`$${rec.toFixed(2)}`; 
         const sub=base/1.15; document.getElementById('txt-sub').innerText=`$${sub.toFixed(2)}`; document.getElementById('txt-iva').innerText=`$${(base-sub).toFixed(2)}`; 
@@ -344,47 +335,20 @@
     function abrirFirma(name) { currentKidName = name; ctx.clearRect(0,0,canvas.width,canvas.height); document.getElementById('modalFirma').style.display = 'flex'; }
     async function confirmarAsistia() { await fetch(`${URL_APP}?action=asistencia&nombre=${encodeURIComponent(currentKidName)}&sesiones=-1`, { mode: 'no-cors' }); document.getElementById('modalFirma').style.display = 'none'; loadData(); }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
-    function enviarWA(n, r, w) { 
-        const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm, solamente para recordarle que ${n.split(' ')[0]} tiene su sesion en 1 hora. (No olvide su mapa y su termo)`; 
-        window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); 
-    }
+    function enviarWA(n, r, w) { const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm...`; window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); }
 
     function validarAcceso() { 
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
-
+        const u = document.getElementById('user').value; const p = document.getElementById('pass').value;
         if(u === "KidOmAcademy" && p === "VisionFe2026") { 
-            const overlay = document.getElementById('login-overlay');
-            const card = document.querySelector('.login-card');
-            card.classList.add('login-exit-anim');
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    document.getElementById('main-app-container').style.display = 'flex';
-                    loadData(); 
-                    calcularTotales();
-                }, 500);
-            }, 500);
-        } else {
-            alert("El usuario/contraseña no es correcto, intentalo de nuevo");
-        }
+            const overlay = document.getElementById('login-overlay'); const card = document.querySelector('.login-card');
+            card.classList.add('login-exit-anim'); setTimeout(() => { overlay.style.display = 'none'; document.getElementById('main-app-container').style.display = 'flex'; loadData(); calcularTotales(); }, 600);
+        } else { alert("Usuario/Contraseña incorrectos"); }
     }
 
     document.getElementById('user').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
     document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
 
-    function cerrarSesion() {
-        const overlay = document.getElementById('login-overlay');
-        const card = document.querySelector('.login-card');
-        document.getElementById('user').value = "";
-        document.getElementById('pass').value = "";
-        card.classList.remove('login-exit-anim');
-        overlay.style.display = 'flex';
-        overlay.style.opacity = '1';
-        document.getElementById('main-app-container').style.display = 'none';
-        showTab('registro');
-    }
+    function cerrarSesion() { location.reload(); }
 
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
     function startDrawing(e) { drawing = true; draw(e); }
@@ -401,15 +365,7 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function() {
-            navigator.serviceWorker.register("sw.js").then(function(reg) {
-                console.log("SW OK");
-            }).catch(function(err) {
-                console.log("SW Error", err);
-            });
-        });
-    }
+    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(e => console.log(e)); }
 </script>
 </body>
 </html>

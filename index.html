@@ -180,6 +180,12 @@
             /* Asegura que el scroll general funcione en vertical */
             body { overflow-y: auto !important; height: auto !important; }
             #main-app-container { height: auto !important; min-height: 100vh; }
+	#sel-horario {
+                touch-action: manipulation !important; /* Permite que el toque funcione */
+                -webkit-appearance: none !important;  /* Limpia estilos de Apple */
+                appearance: none !important;
+                font-size: 16px !important;            /* Evita que el iPhone haga zoom al tocar */
+            }
         }
     </style>
 </head>

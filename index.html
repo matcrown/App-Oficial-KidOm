@@ -352,7 +352,7 @@
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
         const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Lideres: ["LUN_17H", "MAR_16H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Campeones: ["LUN_16H", "LUN_19H", "MAR_17H", "MIE_17H", "MIE_19H", "JUE_19H", "VIE_16H", "VIE_19H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"] };
         if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + "00"; sel.appendChild(o); });
-        sel.onmousedown=function(e){e.preventDefault(); e.target.selected=!e.target.selected;};
+        sel.onclick=function(e){e.preventDefault(); e.target.selected=!e.target.selected;};
     }
     
     function calcularTotales() { 

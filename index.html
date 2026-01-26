@@ -145,28 +145,43 @@
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
         .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
 
-       /* --- CIRUGÍA DE PRECISIÓN: SCROLL VERTICAL HABILITADO --- */
+       /* --- CIRUGÍA FINAL: TARJETAS 10% MÁS PEQUEÑAS Y CONTROL DE PESTAÑAS --- */
         @media (max-width: 768px) {
-            #registro { 
-                flex-direction: column !important; 
-                align-items: center !important; 
-                padding: 20px 5px !important;
-                display: block !important; /* Cambiamos a block para que el scroll fluya mejor */
-                overflow-y: auto !important; /* Habilita el scroll hacia abajo */
-                height: calc(100vh - 120px) !important; /* Altura máxima permitida */
+            /* Evita que se solapen las pestañas */
+            #registro[style*="display: flex"], 
+            #registro[style*="display: block"] { 
+                display: block !important; 
+                flex-direction: column !important;
             }
+
+            #registro { 
+                padding: 20px 0 !important;
+                overflow-y: auto !important; 
+                height: calc(100vh - 150px) !important; 
+                -webkit-overflow-scrolling: touch;
+            }
+
             .form-container-wrapper {
                 width: 100% !important;
                 display: flex !important;
                 justify-content: center !important;
-                margin-bottom: 20px !important;
+                margin-bottom: 25px !important;
             }
+
+            /* Tarjetas un 10% más pequeñas (de 95% a 85%) para dar aire a los lados */
             .form-card, .cost-card { 
-                width: 90% !important; 
-                max-width: 380px !important; 
+                width: 85% !important; 
+                max-width: 340px !important; 
+                box-sizing: border-box !important;
             }
-            .header { font-size: 18px !important; }
-            .grid-asis { grid-template-columns: 1fr !important; }
+
+            .header { font-size: 16px !important; padding: 10px 5px !important; }
+            .header img { height: 30px !important; }
+            
+            .grid-asis { grid-template-columns: 1fr !important; padding: 10px !important; }
+            
+            /* Ajuste de botones de pestañas para que no se amontonen */
+            .tab-btn { font-size: 11px !important; padding: 12px 5px !important; }
         }
     </style>
 </head>

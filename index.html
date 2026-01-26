@@ -145,43 +145,41 @@
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
         .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
 
-       /* --- CIRUGÍA FINAL: TARJETAS 10% MÁS PEQUEÑAS Y CONTROL DE PESTAÑAS --- */
-        @media (max-width: 768px) {
-            /* Evita que se solapen las pestañas */
+       /* --- INTERVENCIÓN FINAL: ADAPTABILIDAD VERTICAL TOTAL --- */
+        @media (max-width: 1024px) { /* Cubre Celulares y Tablets en vertical */
+            
+            /* Solo aplicar flex-direction si el registro está activo */
             #registro[style*="display: flex"], 
-            #registro[style*="display: block"] { 
-                display: block !important; 
-                flex-direction: column !important;
+            #registro[style*="display:flex"] { 
+                flex-direction: column !important; 
+                align-items: center !important; 
+                overflow-y: auto !important;
+                height: auto !important;
+                padding-bottom: 50px !important;
             }
 
-            #registro { 
-                padding: 20px 0 !important;
-                overflow-y: auto !important; 
-                height: calc(100vh - 150px) !important; 
-                -webkit-overflow-scrolling: touch;
-            }
-
+            /* Mantiene las tachuelas pegadas a la tarjeta */
             .form-container-wrapper {
-                width: 100% !important;
-                display: flex !important;
-                justify-content: center !important;
-                margin-bottom: 25px !important;
+                width: auto !important;
+                max-width: 95% !important;
+                display: inline-block !important; /* Ajusta el contenedor al tamaño de la tarjeta */
+                margin: 10px auto !important;
             }
 
-            /* Tarjetas un 10% más pequeñas (de 95% a 85%) para dar aire a los lados */
             .form-card, .cost-card { 
-                width: 85% !important; 
-                max-width: 340px !important; 
+                width: 100% !important; 
+                max-width: 380px !important; 
                 box-sizing: border-box !important;
             }
 
-            .header { font-size: 16px !important; padding: 10px 5px !important; }
-            .header img { height: 30px !important; }
+            /* Ajustes visuales para pantallas pequeñas */
+            .header { font-size: 16px !important; padding: 10px !important; }
+            .header span { text-align: center; }
+            .grid-asis { grid-template-columns: 1fr !important; }
             
-            .grid-asis { grid-template-columns: 1fr !important; padding: 10px !important; }
-            
-            /* Ajuste de botones de pestañas para que no se amontonen */
-            .tab-btn { font-size: 11px !important; padding: 12px 5px !important; }
+            /* Asegura que el scroll general funcione en vertical */
+            body { overflow-y: auto !important; height: auto !important; }
+            #main-app-container { height: auto !important; min-height: 100vh; }
         }
     </style>
 </head>

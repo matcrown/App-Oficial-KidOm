@@ -145,20 +145,25 @@
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
         .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
 
-        /* --- INTERVENCIÓN QUIRÚRGICA: ADAPTABILIDAD VERTICAL SIN CORTES --- */
+       /* --- CIRUGÍA DE PRECISIÓN: SCROLL VERTICAL HABILITADO --- */
         @media (max-width: 768px) {
             #registro { 
                 flex-direction: column !important; 
                 align-items: center !important; 
-                padding: 10px 5px !important;
-                height: auto !important; /* <--- ESTO EVITA QUE SE CORTE LA TARJETA */
-                overflow-y: visible !important; /* Deja que la tarjeta fluya hacia abajo */
+                padding: 20px 5px !important;
+                display: block !important; /* Cambiamos a block para que el scroll fluya mejor */
+                overflow-y: auto !important; /* Habilita el scroll hacia abajo */
+                height: calc(100vh - 120px) !important; /* Altura máxima permitida */
+            }
+            .form-container-wrapper {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                margin-bottom: 20px !important;
             }
             .form-card, .cost-card { 
                 width: 90% !important; 
                 max-width: 380px !important; 
-                height: auto !important; /* Asegura que la tarjeta estire según su contenido */
-                flex-shrink: 0 !important;
             }
             .header { font-size: 18px !important; }
             .grid-asis { grid-template-columns: 1fr !important; }

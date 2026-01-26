@@ -2,29 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
     
-    <link rel="manifest" href="data:application/manifest+json,{'name':'KiDOM','short_name':'KiDOM','start_url':'.','display':'standalone','background_color':'#2667ff','theme_color':'#2667ff','icons':[{'src':'https://i.imgur.com/ZVERytB.png','sizes':'512x512','type':'image/png'}]}">
+    <link rel="manifest" href="data:application/manifest+json,
+    {
+      'name': 'KiDOM Master Console',
+      'short_name': 'KiDOM',
+      'start_url': '.',
+      'display': 'standalone',
+      'background_color': '#f4f4f4',
+      'theme_color': '#2667ff',
+      'icons': [
+        {
+          'src': 'https://i.imgur.com/ZVERytB.png',
+          'sizes': '512x512',
+          'type': 'image/png'
+        }
+      ]
+    }">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        html { -webkit-text-size-adjust: none; text-size-adjust: none; }
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: #f3f4f6; 
-            margin: 0; 
-            display: flex; 
-            height: 100vh; 
-            overflow: hidden;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            box-sizing: border-box;
-        }
+        body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
         /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
@@ -83,6 +87,7 @@
         .filter-circle.active.l { border-color: var(--lideres); background: var(--lideres); color: white; }
         .filter-circle.active.c { border-color: var(--campeones); background: var(--campeones); color: white; }
 
+        /* BOTON CERRAR SESION SIMPLE */
         .btn-logout-sidebar { margin-top: auto; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: 2px solid #e2e8f0; cursor: pointer; font-size: 20px; transition: 0.3s; }
         .btn-logout-sidebar:hover { background: var(--red); color: white; border-color: var(--red); }
         .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
@@ -95,22 +100,12 @@
         .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #registro { 
-            flex: 1; 
-            display: none; 
-            align-items: flex-start; 
-            justify-content: center; 
-            padding: 10px 20px; 
-            overflow-y: auto; 
-            gap: 25px; 
-            flex-wrap: wrap; 
-        }
+        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
-        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
-        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; max-width: 95vw; box-sizing: border-box; }
-        
+        .form-card { width: 440px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
+        .cost-card { width: 340px; background: white; padding: 30px; border-radius: 40px; border: 2px solid var(--blue); text-align: center; position: relative; }
         .label-kidom { display: block; margin-top: 12px; font-weight: 800; font-size: 11px; color: var(--blue); text-transform: uppercase; text-align: left; }
         .select-kidom { width: 100%; padding: 10px; margin-top: 4px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 14px; font-weight: 700; color: var(--dark); background: #ffffff; box-sizing: border-box; font-family: 'Montserrat'; outline: none; }
         .bank-info-box { background: #eff6ff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #bfdbfe; font-size: 11px; border-left: 5px solid var(--blue); color: var(--dark); line-height: 1.6; display: none; }
@@ -121,7 +116,10 @@
         .btn-update-kidom { width: 100%; margin-top: 20px; padding: 18px; font-weight: 900; background: var(--dark) !important; color: white !important; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; font-size: 14px; display: none; }
 
         #asistencia { display: none; flex: 1; padding: 20px; overflow-y: auto; }
+        
+        /* CORRECCIÓN DE CUADRÍCULA Y ESPACIO SCROLL */
         .grid-asis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding-right: 10px; }
+        
         .card-asis { background: white; border-radius: 25px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 2px solid #f1f5f9; position: relative; }
         .card-asis.Exploradores { border-color: var(--exploradores); }
         .card-asis.Lideres { border-color: var(--lideres); }
@@ -246,7 +244,7 @@
     function renderAsistencia(filter = 'all') {
         const grid = document.getElementById('grid-asis'); grid.innerHTML = '';
         allStudents.filter(k => filter === 'all' || k.grupo === filter).forEach((k) => {
-            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">Asistió</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">WA</button></div></div>`;
+            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">FIRMAR</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">CONFIRMAR</button></div></div>`;
         });
     }
 
@@ -267,9 +265,23 @@
         const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main');
         const originalText = btn.innerText;
         btn.innerText = "PROCESANDO..."; btn.disabled = true;
+
+        const plan = document.getElementById('f_plan').value;
+        const dur = document.getElementById('f_dur').value;
+        let base = (plan === "Pro") ? 8 : (plan === "Max") ? 12 : 20;
+        let meses = (dur === "Mensual") ? 1 : (dur.includes("Trimestral")) ? 3 : 12;
+        if(dur.includes("PROMO")) meses += (dur.includes("Trimestral")) ? 1 : 4;
+        let totalSesiones = base * meses;
+
         const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${(document.getElementById('f_plan').value === 'Pro' ? 8 : document.getElementById('f_plan').value === 'Max' ? 12 : 20) * (document.getElementById('f_dur').value === 'Mensual' ? 1 : 3)}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
-        try { await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); alert("ÉXITO"); limpiarForm(); loadData(); } catch(e){} finally { btn.innerText = originalText; btn.disabled = false; }
+        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+        
+        try { 
+            await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
+            alert("ÉXITO"); 
+            limpiarForm();
+            loadData(); 
+        } catch(e){} finally { btn.innerText = originalText; btn.disabled = false; }
     }
 
     function limpiarForm() {
@@ -302,7 +314,7 @@
     
     function calcularTotales() { 
         const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value, m = document.getElementById('p-metodo').value; 
-        const pr = { Pro:{Mensual:65, Trimestral:180, Anual:620}, Max:{Mensual:85, Trimestral:230, Anual:880}, Elite:{Mensual:115, Trimestral:320, Anual:1200} }; 
+        const pr = { Pro:{Mensual:65, Trimestral:180, "Trimestral PROMO":180, Anual:620}, Max:{Mensual:85, Trimestral:230, "Trimestral PROMO":230, Anual:880}, Elite:{Mensual:115, Trimestral:320, "Trimestral PROMO":320, Anual:1200} }; 
         let base = pr[p][d] || 65, rec = (m==='Tarjeta')?base*0.06:0; 
         document.getElementById('row-recargo').style.display=(m==='Tarjeta')?'flex':'none'; document.getElementById('txt-recargo').innerText=`$${rec.toFixed(2)}`; 
         const sub=base/1.15; document.getElementById('txt-sub').innerText=`$${sub.toFixed(2)}`; document.getElementById('txt-iva').innerText=`$${(base-sub).toFixed(2)}`; 
@@ -317,30 +329,62 @@
     function abrirFirma(name) { currentKidName = name; ctx.clearRect(0,0,canvas.width,canvas.height); document.getElementById('modalFirma').style.display = 'flex'; }
     async function confirmarAsistia() { await fetch(`${URL_APP}?action=asistencia&nombre=${encodeURIComponent(currentKidName)}&sesiones=-1`, { mode: 'no-cors' }); document.getElementById('modalFirma').style.display = 'none'; loadData(); }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
-    function enviarWA(n, r, w) { const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm...`; window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); }
-
-    /* FUNCIÓN MAESTRA DE PANTALLA COMPLETA */
-    function validarAcceso() { 
-        const u = document.getElementById('user').value; const p = document.getElementById('pass').value;
-        if(u === "KidOmAcademy" && p === "VisionFe2026") { 
-            
-            // INTENTO DE FORZAR FULLSCREEN INMERSIVO EN ANDROID
-            const docElm = document.documentElement;
-            if (docElm.requestFullscreen) { docElm.requestFullscreen(); }
-            else if (docElm.mozRequestFullScreen) { docElm.mozRequestFullScreen(); }
-            else if (docElm.webkitRequestFullScreen) { docElm.webkitRequestFullScreen(); }
-            else if (docElm.msRequestFullscreen) { docElm.msRequestFullscreen(); }
-
-            const overlay = document.getElementById('login-overlay'); const card = document.querySelector('.login-card');
-            card.classList.add('login-exit-anim'); setTimeout(() => { overlay.style.display = 'none'; document.getElementById('main-app-container').style.display = 'flex'; loadData(); calcularTotales(); }, 600);
-        } else { alert("Usuario/Contraseña incorrectos"); }
+    function enviarWA(n, r, w) { 
+        const msg = `Buenas Tardes ${r.split(' ')[0]}, le saludamos de parte de KidOm, solamente para recordarle que ${n.split(' ')[0]} tiene su sesion en 1 hora. (No olvide su mapa y su termo)`; 
+        window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); 
     }
 
+    /* --- LÓGICA DE ACCESO MAESTRA V237 --- */
+    function validarAcceso() { 
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+
+        if(u === "KidOmAcademy" && p === "VisionFe2026") { 
+            const overlay = document.getElementById('login-overlay');
+            const card = document.querySelector('.login-card');
+            
+            // 1. Iniciar animación de lujo
+            card.classList.add('login-exit-anim');
+            
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    document.getElementById('main-app-container').style.display = 'flex';
+                    loadData(); 
+                    calcularTotales();
+                }, 500);
+            }, 500);
+        } else {
+            // 2. Alerta de error personalizada
+            alert("El usuario/contraseña no es correcto, intentalo de nuevo");
+        }
+    }
+
+    // 3. Escuchar tecla ENTER en los inputs
     document.getElementById('user').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
     document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
 
-    function cerrarSesion() { location.reload(); }
+    /* --- LOGOUT --- */
+    function cerrarSesion() {
+        const overlay = document.getElementById('login-overlay');
+        const card = document.querySelector('.login-card');
+        
+        // Limpiar inputs
+        document.getElementById('user').value = "";
+        document.getElementById('pass').value = "";
+        card.classList.remove('login-exit-anim');
+        
+        // Volver al estado inicial
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        document.getElementById('main-app-container').style.display = 'none';
+        
+        // Regresar a la pestaña por defecto
+        showTab('registro');
+    }
 
+    // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
     function startDrawing(e) { drawing = true; draw(e); }
     function stopDrawing() { drawing = false; ctx.beginPath(); }
@@ -356,7 +400,10 @@
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(e => console.log(e)); }
+    // REGISTRO PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('data:text/javascript,self.addEventListener(\'fetch\', function(event) {});');
+    }
 </script>
 </body>
 </html>

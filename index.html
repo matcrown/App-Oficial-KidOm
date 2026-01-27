@@ -2,12 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>OFICINA VIRTUAL - KIDOM ACADEMY</title>
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <link rel="manifest" href="data:application/manifest+json,
     {
@@ -25,18 +24,41 @@
         }
       ]
     }">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-body {
-    padding-top: env(safe-area-inset-top); /* Esto crea espacio automático para el notch/hora */
-    background-color: #f3f4f6; /* O el color de tu fondo */
-}
         :root { --blue: #2667ff; --yellow: #FBBF24; --white: #ffffff; --dark: #1e293b; --red: #ef4444; --green-wa: #25d366; --exploradores: #4ade80; --lideres: #FBBF24; --campeones: #818cf8; }
-        body { font-family: 'Montserrat', sans-serif; background: #f3f4f6; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+
+        /* --- CORRECCIÓN DE PANTALLA COMPLETA Y SCROLL --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            /* Permitimos el scroll pero ocultamos el rebote elástico */
+            overflow-x: hidden;
+            background-color: #f3f4f6;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            flex-direction: column;
+            /* Protege la zona de la batería/hora */
+            padding-top: env(safe-area-inset-top);
+            min-height: 100dvh; 
+        }
+
+        #main-app-container { 
+            display: none; 
+            width: 100%; 
+            /* Altura dinámica para evitar la barra blanca */
+            min-height: 100dvh; 
+            flex-direction: row; 
+            /* Protege la zona de la barra de gestos inferior */
+            padding-bottom: env(safe-area-inset-bottom);
+            box-sizing: border-box;
+        }
 
         /* --- ANIMACIÓN DE SALIDA LOGIN PROFESIONAL --- */
         .login-exit-anim { animation: loginExit 0.6s forwards ease-in-out; pointer-events: none; }
@@ -86,7 +108,6 @@ body {
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
 
-        #main-app-container { display: none; width: 100%; height: 100vh; flex-direction: row; }
         .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding: 30px 0 20px 0; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; position: relative; }
         .sidebar.visible { width: 85px; }
         .filter-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent; font-weight: 900; cursor: pointer; border: 2px solid #ccc; transition: 0.3s; font-size: 18px; color: #666; }
@@ -95,13 +116,12 @@ body {
         .filter-circle.active.l { border-color: var(--lideres); background: var(--lideres); color: white; }
         .filter-circle.active.c { border-color: var(--campeones); background: var(--campeones); color: white; }
 
-        /* BOTON CERRAR SESION SIMPLE */
         .btn-logout-sidebar { margin-top: auto; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: 2px solid #e2e8f0; cursor: pointer; font-size: 20px; transition: 0.3s; }
         .btn-logout-sidebar:hover { background: var(--red); color: white; border-color: var(--red); }
         .btn-logout-sidebar svg { stroke: #64748b; transition: 0.3s; }
         .btn-logout-sidebar:hover svg { stroke: white; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .main-content { flex: 1; display: flex; flex-direction: column; min-height: 100%; overflow-x: hidden; position: relative; }
         .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
         .header img { height: 45px; }
         .tabs { display: flex; background: #e5e7eb; padding: 8px; flex-shrink: 0; }
@@ -125,7 +145,6 @@ body {
 
         #asistencia { display: none; flex: 1; padding: 20px; overflow-y: auto; }
         
-        /* CORRECCIÓN DE CUADRÍCULA Y ESPACIO SCROLL */
         .grid-asis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding-right: 10px; }
         
         .card-asis { background: white; border-radius: 25px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 2px solid #f1f5f9; position: relative; }
@@ -153,24 +172,20 @@ body {
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
         .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
 
-       /* --- INTERVENCIÓN FINAL: ADAPTABILIDAD VERTICAL TOTAL --- */
-        @media (max-width: 1024px) { /* Cubre Celulares y Tablets en vertical */
-            
-            /* Solo aplicar flex-direction si el registro está activo */
+        @media (max-width: 1024px) {
             #registro[style*="display: flex"], 
             #registro[style*="display:flex"] { 
                 flex-direction: column !important; 
                 align-items: center !important; 
-                overflow-y: auto !important;
+                overflow-y: visible !important;
                 height: auto !important;
-                padding-bottom: 50px !important;
+                padding-bottom: 100px !important;
             }
 
-            /* Mantiene las tachuelas pegadas a la tarjeta */
             .form-container-wrapper {
                 width: auto !important;
                 max-width: 95% !important;
-                display: inline-block !important; /* Ajusta el contenedor al tamaño de la tarjeta */
+                display: inline-block !important;
                 margin: 10px auto !important;
             }
 
@@ -180,32 +195,27 @@ body {
                 box-sizing: border-box !important;
             }
 
-            /* Ajustes visuales para pantallas pequeñas */
             .header { font-size: 16px !important; padding: 10px !important; }
             .header span { text-align: center; }
             .grid-asis { grid-template-columns: 1fr !important; }
             
-            /* Asegura que el scroll general funcione en vertical */
-            body { overflow-y: auto !important; height: auto !important; }
-            #main-app-container { height: auto !important; min-height: 100vh; }
-	/* --- PARCHE DE TRANSPARENCIA PARA MÓVILES --- */
-#sel-horario {
-    background: transparent !important;
-    border: 2px solid rgba(38, 103, 255, 0.2) !important; /* Un borde suave azulado */
-    color: var(--dark) !important;
-    backdrop-filter: blur(5px); /* Efecto cristal si el fondo tiene color */
-    outline: none !important;
-}
+            /* Scroll activado para móvil */
+            html, body { overflow-y: auto !important; }
+            #main-app-container { height: auto !important; min-height: 100dvh; }
 
-#sel-horario option {
-    background: white !important; /* Para que al abrir la lista sí se vean las letras */
-    color: var(--dark) !important;
-}
+            /* PARCHE DE TRANSPARENCIA */
+            #sel-horario {
+                background: transparent !important;
+                border: 2px solid rgba(38, 103, 255, 0.2) !important;
+                color: var(--dark) !important;
+                backdrop-filter: blur(5px);
+                outline: none !important;
+                -webkit-appearance: none;
+            }
 
-/* Para que en iPhone no se vea gris al tocarlo */
-#sel-horario:focus {
-    background: transparent !important;
-}
+            #sel-horario option { background: white !important; color: var(--dark) !important; }
+            #sel-horario:focus { background: transparent !important; }
+        }
     </style>
 </head>
 <body>
@@ -396,7 +406,6 @@ body {
         window.open(`https://wa.me/${w}?text=${encodeURIComponent(msg)}`, '_blank'); 
     }
 
-    /* --- LÓGICA DE ACCESO MAESTRA V237 --- */
     function validarAcceso() { 
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
@@ -404,10 +413,7 @@ body {
         if(u === "KidOmAcademy" && p === "VisionFe2026") { 
             const overlay = document.getElementById('login-overlay');
             const card = document.querySelector('.login-card');
-            
-            // 1. Iniciar animación de lujo
             card.classList.add('login-exit-anim');
-            
             setTimeout(() => {
                 overlay.style.opacity = '0';
                 setTimeout(() => {
@@ -418,35 +424,25 @@ body {
                 }, 500);
             }, 500);
         } else {
-            // 2. Alerta de error personalizada
             alert("El usuario/contraseña no es correcto, intentalo de nuevo");
         }
     }
 
-    // 3. Escuchar tecla ENTER en los inputs
     document.getElementById('user').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
     document.getElementById('pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
 
-    /* --- LOGOUT --- */
     function cerrarSesion() {
         const overlay = document.getElementById('login-overlay');
         const card = document.querySelector('.login-card');
-        
-        // Limpiar inputs
         document.getElementById('user').value = "";
         document.getElementById('pass').value = "";
         card.classList.remove('login-exit-anim');
-        
-        // Volver al estado inicial
         overlay.style.display = 'flex';
         overlay.style.opacity = '1';
         document.getElementById('main-app-container').style.display = 'none';
-        
-        // Regresar a la pestaña por defecto
         showTab('registro');
     }
 
-    // --- FIRMA TÁCTIL ---
     let canvas = document.getElementById('canvasFirma'), ctx = canvas.getContext('2d'), drawing = false;
     function startDrawing(e) { drawing = true; draw(e); }
     function stopDrawing() { drawing = false; ctx.beginPath(); }
@@ -462,7 +458,6 @@ body {
     canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchmove', draw);
 
-    // REGISTRO PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('data:text/javascript,self.addEventListener(\'fetch\', function(event) {});');
     }

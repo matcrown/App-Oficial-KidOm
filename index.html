@@ -180,13 +180,24 @@
             /* Asegura que el scroll general funcione en vertical */
             body { overflow-y: auto !important; height: auto !important; }
             #main-app-container { height: auto !important; min-height: 100vh; }
-	#sel-horario {
-                touch-action: manipulation !important; /* Permite que el toque funcione */
-                -webkit-appearance: none !important;  /* Limpia estilos de Apple */
-                appearance: none !important;
-                font-size: 16px !important;            /* Evita que el iPhone haga zoom al tocar */
-            }
-        }
+	/* --- PARCHE DE TRANSPARENCIA PARA MÓVILES --- */
+#sel-horario {
+    background: transparent !important;
+    border: 2px solid rgba(38, 103, 255, 0.2) !important; /* Un borde suave azulado */
+    color: var(--dark) !important;
+    backdrop-filter: blur(5px); /* Efecto cristal si el fondo tiene color */
+    outline: none !important;
+}
+
+#sel-horario option {
+    background: white !important; /* Para que al abrir la lista sí se vean las letras */
+    color: var(--dark) !important;
+}
+
+/* Para que en iPhone no se vea gris al tocarlo */
+#sel-horario:focus {
+    background: transparent !important;
+}
     </style>
 </head>
 <body>

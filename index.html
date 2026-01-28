@@ -267,7 +267,9 @@
                 <form id="formReg">
                     <label class="label-kidom">REGISTRO DE FOTO ESTUDIANTIL</label><input type="text" id="f_foto_url" class="select-kidom" placeholder="https://...">
                     <label class="label-kidom">NOMBRE ESTUDIANTE KIDOM</label><input type="text" id="f_nombre" class="select-kidom" required>
-                    <label class="label-kidom">NOMBRE REPRESENTANTE KIDOM</label><input type="text" id="f_rep" class="select-kidom" required>
+                    <label class="label-kidom">NOMBRE REPRESENTANTE O TUTOR</label><input type="text" id="f_rep" class="select-kidom" required>
+                    <label class="label-kidom">CORREO DEL REPRESENTANTE</label>
+<input type="email" id="f_correo_padre" class="select-kidom" placeholder="ejemplo@correo.com" required>
                     <label class="label-kidom">GRUPO DE EDAD</label><select id="sel-grupo" class="select-kidom" onchange="actualizarHorarios()" required><option value="">Seleccionar...</option><option value="Exploradores">Exploradores</option><option value="Lideres">Lideres</option><option value="Campeones">Campeones</option></select>
                     <label class="label-kidom">HORARIOS ASIGNADOS KIDOM</label><select id="sel-horario" class="select-kidom" multiple style="height: 110px;"></select>
                     <div style="display:flex; gap:10px;">
@@ -328,7 +330,7 @@
             horas.forEach(h => {
                 let tag = `${diasT[i]}_${h}`;
                 let kids = allStudents.filter(s => s.horarios.includes(tag) && (filter==='all' || s.grupo===filter));
-                if(kids.length > 0) col += `<div class="turno-box"><span class="turno-time">${h}00</span>${kids.map(k => `<span class="estudiante-tag" style="background:var(--${k.grupo.toLowerCase().replace('í','i')})" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">${k.nombre.split(' ')[0]}</span>`).join('')}</div>`;
+                if(kids.length > 0) col += `<div class="turno-box"><span class="turno-time">${h}00</span>${kids.map(k => `<span class="estudiante-tag" style="background:var(--${k.grupo.toLowerCase().replace('í','i')})" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">${k.nombre.toUpperCase()}</span>`).join('')}</div>`;
             }); return col + `</div>`;
         }).join('');
     }
@@ -346,7 +348,8 @@
         let totalSesiones = base * meses;
 
         const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+	const correoP = document.getElementById('f_correo_padre').value;
+        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&correoPadre=${encodeURIComponent(correoP)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
         
         try { 
             await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
@@ -369,6 +372,7 @@
         showTab('registro'); 
         document.getElementById('f_nombre').value = kid.nombre; 
         document.getElementById('f_rep').value = kid.rep; 
+	document.getElementById('f_correo_padre').value = kid.correoPadre || "";
         document.getElementById('sel-grupo').value = kid.grupo; 
         document.getElementById('f_wa').value = kid.wa; 
         document.getElementById('f_foto_url').value = kid.foto;

@@ -103,11 +103,11 @@
             backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.5);
             padding: 40px; border-radius: 60px; width: 280px; text-align: center;
-	    display: flex;
+        display: flex;
             flex-direction: column;
             align-items: center; 
             justify-content: center;
-	    text-align: center;
+        text-align: center;
             box-shadow: 0 40px 80px rgba(0,0,0,0.15);
         }
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
@@ -295,7 +295,15 @@
             </div></div>
         </div>
         
-        <div id="asistencia"><div class="grid-asis" id="grid-asis"></div></div>
+        <div id="asistencia">
+            <div style="margin-bottom: 20px; position: relative; max-width: 500px;">
+                <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b;">🔍</span>
+                <input type="text" id="inputBusqueda" placeholder="BUSCAR LÍDER POR NOMBRE..." 
+                       style="width: 100%; padding: 15px 15px 15px 45px; border-radius: 20px; border: 2px solid var(--blue); font-family: 'Montserrat'; font-weight: 800; font-size: 14px; outline: none; box-sizing: border-box;"
+                       onkeyup="buscarEstudiante()">
+            </div>
+            <div class="grid-asis" id="grid-asis"></div>
+        </div>
         <div id="calendario"><div class="semana-grid" id="semana-body"></div></div>
     </div>
 </div>
@@ -322,6 +330,7 @@
 
     function renderAsistencia(filter = 'all') {
         const grid = document.getElementById('grid-asis'); grid.innerHTML = '';
+        if(document.getElementById('inputBusqueda')) document.getElementById('inputBusqueda').value = '';
         allStudents.filter(k => filter === 'all' || k.grupo === filter).forEach((k) => {
             grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">FIRMAR</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">CONFIRMAR</button></div></div>`;
         });
@@ -353,7 +362,7 @@
         let totalSesiones = base * meses;
 
         const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-	const correoP = document.getElementById('f_correo_padre').value;
+    const correoP = document.getElementById('f_correo_padre').value;
         const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&correoPadre=${encodeURIComponent(correoP)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
         
         try { 
@@ -377,7 +386,7 @@
         showTab('registro'); 
         document.getElementById('f_nombre').value = kid.nombre; 
         document.getElementById('f_rep').value = kid.rep; 
-	document.getElementById('f_correo_padre').value = kid.correoPadre || "";
+    document.getElementById('f_correo_padre').value = kid.correoPadre || "";
         document.getElementById('sel-grupo').value = kid.grupo; 
         document.getElementById('f_wa').value = kid.wa; 
         document.getElementById('f_foto_url').value = kid.foto;
@@ -469,6 +478,16 @@
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('data:text/javascript,self.addEventListener(\'fetch\', function(event) {});');
+    }
+
+    // FUNCIÓN DE BÚSQUEDA INTEGRADA QUIRÚRGICAMENTE
+    function buscarEstudiante() {
+        const texto = document.getElementById('inputBusqueda').value.toLowerCase().trim();
+        const tarjetas = document.querySelectorAll('.card-asis');
+        tarjetas.forEach(tarjeta => {
+            const nombre = tarjeta.querySelector('.asis-info b').innerText.toLowerCase();
+            tarjeta.style.display = nombre.includes(texto) ? 'flex' : 'none';
+        });
     }
 </script>
 </body>

@@ -402,18 +402,21 @@
         const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
         if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
         // Aplica a cada opción la lógica de "Toque Simple" para PC
-        sel.onmousedown = function(e) {
-            e.preventDefault(); // Evita que el navegador use su selección por defecto
-            var scroll = this.scrollTop; // Guarda la posición del scroll
-            e.target.selected = !e.target.selected; // Cambia el estado (marcado/desmarcado)
-            
-            // Un pequeño truco para que el scroll no se mueva al hacer clic
-            setTimeout(() => { this.scrollTop = scroll; }, 0);
-            
-            // Disparar manualmente el cálculo de sesiones por si acaso
-            calcularTotales();
-            return false;
-        };
+        // --- COPIAR DESDE AQUÍ ---
+        if (window.matchMedia("(pointer: coarse)").matches) {
+            sel.onmousedown = null;
+            sel.onchange = calcularTotales;
+        } else {
+            sel.onmousedown = function(e) {
+                e.preventDefault();
+                var scroll = this.scrollTop;
+                e.target.selected = !e.target.selected;
+                setTimeout(() => { this.scrollTop = scroll; }, 0);
+                calcularTotales();
+                return false;
+            };
+        }
+        // --- HASTA AQUÍ ---
     }
     
     function calcularTotales() { 

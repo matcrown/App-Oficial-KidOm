@@ -24,7 +24,9 @@
         }
       ]
     }">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/ZVERytB.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/Y0d87u3.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/Y0d87u3.png">
+    <link rel="apple-touch-icon-precomposed" href="https://i.imgur.com/Y0d87u3.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -397,9 +399,21 @@
 
     function actualizarHorarios() { 
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
-        const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Lideres: ["LUN_17H", "MAR_16H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Campeones: ["LUN_16H", "LUN_19H", "MAR_17H", "MIE_17H", "MIE_19H", "JUE_19H", "VIE_16H", "VIE_19H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"] };
-        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + "00"; sel.appendChild(o); });
-        sel.onclick=function(e){e.preventDefault(); e.target.selected=!e.target.selected;};
+        const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
+        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
+        // Aplica a cada opción la lógica de "Toque Simple" para PC
+        sel.onmousedown = function(e) {
+            e.preventDefault(); // Evita que el navegador use su selección por defecto
+            var scroll = this.scrollTop; // Guarda la posición del scroll
+            e.target.selected = !e.target.selected; // Cambia el estado (marcado/desmarcado)
+            
+            // Un pequeño truco para que el scroll no se mueva al hacer clic
+            setTimeout(() => { this.scrollTop = scroll; }, 0);
+            
+            // Disparar manualmente el cálculo de sesiones por si acaso
+            calcularTotales();
+            return false;
+        };
     }
     
     function calcularTotales() { 

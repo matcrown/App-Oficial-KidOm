@@ -399,8 +399,8 @@
 
     function actualizarHorarios() { 
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
-        const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
-        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
+        const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Lideres: ["LUN_17H", "MAR_16H", "MIE_17H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
+        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + "00"; sel.appendChild(o); });
         // Aplica a cada opción la lógica de "Toque Simple" para PC
         // --- COPIAR DESDE AQUÍ ---
         if (window.matchMedia("(pointer: coarse)").matches) {

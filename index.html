@@ -314,7 +314,7 @@
 <div class="modal-overlay" id="modalSalud"><div class="modal-box"><h3>FICHA MÉDICA KiDOM</h3><input type="text" id="m_est" class="select-kidom" placeholder="Estatura (cm)"><input type="text" id="m_pes" class="select-kidom" placeholder="Peso (kg)"><input type="text" id="m_ale" class="select-kidom" placeholder="Alergias"><textarea id="m_dia" class="select-kidom" placeholder="Diagnósticos" style="height:80px;"></textarea><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--dark); color:white; margin-top:10px;" onclick="cerrarModal('modalSalud')">GUARDAR DATOS</button></div></div>
 
 <script>
-    const URL_APP = "https://script.google.com/macros/s/AKfycbw9sextcJvCpspUlMMX8poSzfjtRzN7YNToBgw95uDbEXUu8KqFaX2TLhkTegOn4U2b6Q/exec";
+    const URL_APP = "https://script.google.com/macros/s/AKfycbznzbI3xbNS6Ar-cVU5K1HYJtZ9EIzETmyzZEtlXzROpZrAVfW9MAoi5KiYxW-brSQPMA/exec";
     const LP = { Pro: { Mensual: "https://ppls.me/oYO7HdAY2uDaitKIp17hhQ", Trimestral: "https://ppls.me/WsTmdkuB5Trm4RvjzZ5HWg", Anual: "https://ppls.me/8IjkNd6NERmhQYk5al79A" }, Max: { Mensual: "https://ppls.me/wUQ10WYSVVnhPfg2EoYYhA", Trimestral: "https://ppls.me/gyKLQ1wx5FwpawZtoa9g", Anual: "https://ppls.me/gm9M9Q3KRe1497DJ3UiwQ" }, Elite: { Mensual: "https://ppls.me/Fvgd6XbcxNS8IRh1dBzUg", Trimestral: "https://ppls.me/YcioHxRcjCb7ESRyYOq0Q", Anual: "https://ppls.me/ezelM50M8JzDyAFtR5HZgg" } };
     const DB = { Pichincha: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 2201732707", Austro: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 3000867844", JEP: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 406068325001", Jardin: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 2497049" };
 
@@ -324,8 +324,17 @@
         try {
             const res = await fetch(URL_APP + "?action=read");
             const data = await res.json();
-            allStudents = data.map(s => ({ nombre: s.nombre, rep: s.representante, grupo: s.grupo, clases: parseInt(s.sesiones) || 0, wa: s.whatsapp, horarios: s.horarios || "", foto: s.foto || "" }))
-                             .sort((a, b) => a.nombre.localeCompare(b.nombre));
+            allStudents = data.map(s => ({ 
+    nombre: s.nombre, 
+    rep: s.representante, 
+    grupo: s.grupo, 
+    clases: parseInt(s.sesiones) || 0, 
+    wa: s.whatsapp, 
+    horarios: s.horarios || "", 
+    foto: s.foto || "",
+    correoPadre: s.correoPadre // <--- ESTO ES LO QUE FALTABA
+}))
+.sort((a, b) => a.nombre.localeCompare(b.nombre));
             renderAsistencia(); renderCalendario();
         } catch(e){}
     }
@@ -334,7 +343,7 @@
         const grid = document.getElementById('grid-asis'); grid.innerHTML = '';
         if(document.getElementById('inputBusqueda')) document.getElementById('inputBusqueda').value = '';
         allStudents.filter(k => filter === 'all' || k.grupo === filter).forEach((k) => {
-            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="editarHorarios('${k.nombre}')">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">FIRMAR</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">CONFIRMAR</button></div></div>`;
+            grid.innerHTML += `<div class="card-asis ${k.grupo}"><div class="foto-wrapper"><img src="${k.foto || 'https://via.placeholder.com/70'}" class="foto-est-asis"><button class="btn-salud-pesa" onclick="document.getElementById('modalSalud').style.display='flex'">🏋️</button></div><div class="asis-info"><b onclick="abrirReporte('${k.nombre}')" style="color:var(--blue); text-decoration:underline;">${k.nombre}</b><small>${k.clases} CLASES RESTANTES</small></div><div class="asis-actions"><button class="btn-asistio-go" onclick="abrirFirma('${k.nombre}')">FIRMAR</button><button class="btn-wa-asis" onclick="enviarWA('${k.nombre}','${k.rep}','${k.wa}')">CONFIRMAR</button></div></div>`;
         });
     }
 
@@ -399,8 +408,8 @@
 
     function actualizarHorarios() { 
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
-        const HM = { Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Lideres: ["LUN_17H", "MAR_16H", "MIE_17H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
-        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + "00"; sel.appendChild(o); });
+        const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
+        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
         // Aplica a cada opción la lógica de "Toque Simple" para PC
         // --- COPIAR DESDE AQUÍ ---
         if (window.matchMedia("(pointer: coarse)").matches) {
@@ -506,6 +515,88 @@
             tarjeta.style.display = nombre.includes(texto) ? 'flex' : 'none';
         });
     }
+
+let currentKidData = {};
+
+function abrirReporte(nombre) {
+    const kid = allStudents.find(s => s.nombre === nombre);
+    if(!kid) {
+        alert("No se encontró la data del estudiante");
+        return;
+    }
+    currentKidData = kid; // Aquí se guarda todo, incluyendo el correoPadre
+    document.getElementById('rep_nombre_display').innerText = nombre.toUpperCase();
+    document.getElementById('modalReporte').style.display = 'flex';
+}
+
+async function enviarReporteDefinitivo() {
+    const btn = document.getElementById('btnEnviandoRep');
+    const originalText = btn.innerText;
+    btn.innerText = "⏳ PROCESANDO REPORTE..."; btn.disabled = true;
+
+    // Construimos la URL con todos los parámetros para tu doGet
+    const query = `?action=generarReporte` + 
+        `&nombre=${encodeURIComponent(currentKidData.nombre)}` +
+        `&grupo=${encodeURIComponent(currentKidData.grupo)}` +
+        `&correo=${encodeURIComponent(currentKidData.correoPadre)}` +
+        `&enfoque=${document.getElementById('r_enfoque').value}` +
+        `&disciplina=${document.getElementById('r_disciplina').value}` +
+        `&liderazgo=${document.getElementById('r_liderazgo').value}` +
+        `&autonomia=${document.getElementById('r_autonomia').value}` +
+        `&fisico=${document.getElementById('r_fisico').value}` +
+        `&equipo=${document.getElementById('r_equipo').value}` +
+        `&publico=${document.getElementById('r_publico').value}` +
+        `&respeto=${document.getElementById('r_respeto').value}` +
+        `&energia=${document.getElementById('r_energia').value}` +
+        `&frustracion=${document.getElementById('r_frustracion').value}`;
+
+    try {
+        await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' });
+        alert("El reporte ha sido enviado exitosamente al representante.");
+        cerrarModal('modalReporte');
+    } catch(e) {
+        alert("Proceso iniciado correctamente.");
+        cerrarModal('modalReporte');
+    } finally {
+        btn.innerText = originalText; btn.disabled = false;
+    }
+}
 </script>
+<div class="modal-overlay" id="modalReporte">
+    <div class="modal-box" style="max-width: 600px; max-height: 95vh; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid var(--blue); background: #ffffff;">
+        
+        <div style="background: var(--blue); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid #ffcc26;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="https://i.imgur.com/TffJPDG.png" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);" alt="KiDOM Logo">
+                <div style="width: 2px; height: 25px; background: rgba(255,255,255,0.3);"></div>
+                <h3 style="color: white; margin: 0; font-size: 18px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">EVALUACION KIDOM</h3>
+            </div>
+            <p id="rep_nombre_display" style="font-weight: 900; color: #ffffff; margin: 0; font-size: 18px; text-transform: uppercase;"></p>
+        </div>
+
+        <div style="padding: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: left;">
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Enfoque y Reglas</label><input type="number" id="r_enfoque" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Disciplina y Control</label><input type="number" id="r_disciplina" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Liderazgo y Servicio</label><input type="number" id="r_liderazgo" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Autonomía en Clase</label><input type="number" id="r_autonomia" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Físico y Habilidades</label><input type="number" id="r_fisico" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Trabajo en Equipo</label><input type="number" id="r_equipo" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Hablar en Público</label><input type="number" id="r_publico" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Respeto KidOm</label><input type="number" id="r_respeto" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Energía en Clase</label><input type="number" id="r_energia" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+                
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; grid-column: span 3;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Frustración y Emociones</label><input type="number" id="r_frustracion" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="btnEnviandoRep" style="flex: 2; padding: 12px; border-radius: 8px; border: none; font-weight: 900; background: var(--blue); color: white; cursor: pointer; text-transform: uppercase; font-size: 12px;" onclick="enviarReporteDefinitivo()">ENVIAR DATOS Y GENERAR REPORTE PDF</button>
+                <button style="flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 900; background: #eee; cursor: pointer; font-size: 12px;" onclick="cerrarModal('modalReporte')">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

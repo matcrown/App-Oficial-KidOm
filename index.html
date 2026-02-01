@@ -115,8 +115,30 @@
         .login-input { width: 100%; padding: 10px; border-radius: 18px; border: none; margin-bottom: 10px; font-family: 'Montserrat'; font-weight: 800; text-align: center; outline: none; background: rgba(255,255,255,0.9); font-size: 15px; }
         .btn-login-go { width: 100%; padding: 15px; background: var(--yellow); border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Montserrat'; color: var(--dark); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); }
 
-        .sidebar { width: 0; background: #ffffff; display: flex; flex-direction: column; align-items: center; padding: 30px 0 20px 0; gap: 20px; transition: 0.3s; overflow: hidden; border-right: 1px solid #e5e7eb; position: relative; }
-        .sidebar.visible { width: 85px; }
+      .sidebar { 
+    width: 85px; 
+    background: #ffffff; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 30px 0 20px 0; 
+    gap: 20px; 
+    border-right: 1px solid #e5e7eb; 
+    position: relative;
+    /* --- ANIMACIÓN SUAVE --- */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Cuando se oculta, se desliza hacia la izquierda */
+.sidebar.hidden-sidebar { 
+    transform: translateX(-100%); 
+    opacity: 0;
+    width: 0; /* Para que no ocupe espacio al esconderse */
+    padding: 0;
+    border: none;
+}      .sidebar.visible { width: 85px; }
         .filter-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent; font-weight: 900; cursor: pointer; border: 2px solid #ccc; transition: 0.3s; font-size: 18px; color: #666; }
         .filter-circle.active.all { border-color: var(--blue); background: var(--blue); color: white; }
         .filter-circle.active.e { border-color: var(--exploradores); background: var(--exploradores); color: white; }
@@ -131,8 +153,31 @@
         .main-content { flex: 1; display: flex; flex-direction: column; min-height: 100%; overflow-x: hidden; position: relative; }
         .header { background: var(--blue); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; text-transform: uppercase; font-size: 35px; flex-shrink: 0; }
         .header img { height: 45px; }
-        .tabs { display: flex; background: #e5e7eb; padding: 8px; flex-shrink: 0; }
-        .tab-btn { flex: 1; padding: 18px; border: none; font-weight: 900; cursor: pointer; border-radius: 12px; background: transparent; color: #64748b; font-size: 15px; text-transform: uppercase; }
+        .tabs { 
+            display: flex; 
+            background: #e5e7eb; 
+            padding: 5px; 
+            flex-shrink: 0; 
+            overflow-x: auto; /* Activa deslizamiento horizontal */
+            white-space: nowrap; /* Evita que los botones se amontonen */
+            -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
+            gap: 5px;
+        }
+        /* Oculta la barra de scroll para que se vea más limpio */
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn { 
+            flex: 0 0 auto; /* Importante: evita que los botones se encojan */
+            padding: 15px 20px; 
+            border: none; 
+            font-weight: 800; 
+            cursor: pointer; 
+            border-radius: 12px; 
+            background: transparent; 
+            color: #64748b; 
+            font-size: 19px; 
+            text-transform: uppercase; 
+        }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
@@ -569,15 +614,39 @@
     function abrirLinkTarjeta() { const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value.split(' ')[0]; if(LP[p] && LP[p][d]) window.open(LP[p][d], '_blank'); }
     
     function showTab(t) { 
+        // 1. Ocultar todas las secciones
         ['registro', 'asistencia', 'calendario', 'dashboard'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.style.display = 'none';
         }); 
-        document.getElementById(t).style.display = (t === 'registro') ? 'flex' : 'block'; 
+
+        // 2. Mostrar la sección activa con el display correcto
+        const target = document.getElementById(t);
+        if (target) {
+            target.style.display = (t === 'registro') ? 'flex' : 'block'; 
+        }
+
+        // 3. Gestionar botones activos
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById('btn-' + t).classList.add('active'); 
-        document.getElementById('sidebar').classList.toggle('visible', t !== 'registro'); 
-        if(t === 'dashboard') { cargarDashboardDirecto(); } else if(t !== 'registro') { loadData(); } 
+        const activeBtn = document.getElementById('btn-' + t);
+        if (activeBtn) activeBtn.classList.add('active'); 
+
+        // 4. LÓGICA DE SIDEBAR (E, L, C)
+        // --- LÓGICA DE SIDEBAR ANIMADA ---
+    const sidebar = document.getElementById('sidebar');
+    if (t === 'dashboard' || t === 'registro') {
+        sidebar.classList.add('hidden-sidebar'); // Se desliza hacia afuera
+    } else {
+        sidebar.classList.remove('hidden-sidebar'); // Regresa suavemente
+    }
+
+        // 5. Carga de datos
+        if(t === 'dashboard') { 
+            cargarDashboardDirecto(); 
+        } else if(t !== 'registro') { 
+            loadData(); 
+        } 
+
         if(t === 'registro' && !document.getElementById('f_nombre').value) limpiarForm(); 
     }
 

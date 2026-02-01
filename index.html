@@ -466,7 +466,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="modalFirma"><div class="modal-box"><h3>FIRMA ASISTENCIA</h3><canvas id="canvasFirma"></canvas><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--blue); color:white; cursor:pointer;" onclick="confirmarAsistia()">DESCONTAR CLASE</button><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:#eee; cursor:pointer; margin-top:10px;" onclick="cerrarModal('modalFirma')">CANCELAR</button></div></div>
+<div class="modal-overlay" id="modalFirma"><div class="modal-box"><h3>FIRMA ASISTENCIA</h3><canvas id="canvasFirma"></canvas><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--blue); color:white; cursor:pointer;" onclick="confirmarAsistia()">FIRMAR ASISTENCIA</button><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:#eee; cursor:pointer; margin-top:10px;" onclick="cerrarModal('modalFirma')">CANCELAR</button></div></div>
 <div class="modal-overlay" id="modalSalud"><div class="modal-box"><h3>FICHA MÉDICA KiDOM</h3><input type="text" id="m_est" class="select-kidom" placeholder="Estatura (cm)"><input type="text" id="m_pes" class="select-kidom" placeholder="Peso (kg)"><input type="text" id="m_ale" class="select-kidom" placeholder="Alergias"><textarea id="m_dia" class="select-kidom" placeholder="Diagnósticos" style="height:80px;"></textarea><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--dark); color:white; margin-top:10px;" onclick="cerrarModal('modalSalud')">GUARDAR DATOS</button></div></div>
 
 <script>
@@ -667,17 +667,23 @@
             const overlay = document.getElementById('login-overlay');
             const card = document.querySelector('.login-card');
             card.classList.add('login-exit-anim');
+            
             setTimeout(() => {
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     document.getElementById('main-app-container').style.display = 'flex';
+                    
+                    // --- CORRECCIÓN AQUÍ ---
+                    // Forzamos que entre a Registro y esconda la sidebar de una vez
+                    showTab('registro'); 
+                    
                     loadData(); 
                     calcularTotales();
                 }, 500);
             }, 500);
         } else {
-            alert("El usuario/contraseña no es correcto, intentalo de nuevo");
+            alert("El usuario/contraseña no es correcto, intentalo de nuevo.");
         }
     }
 

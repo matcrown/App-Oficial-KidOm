@@ -180,7 +180,134 @@
         }
         .tab-btn.active { background: var(--yellow) !important; color: var(--dark) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        #registro { flex: 1; display: none; align-items: flex-start; justify-content: center; padding: 10px 20px; overflow-y: auto; gap: 25px; }
+       /* --- DISEÑO DE TARJETA LARGA + MÓDULOS DEBAJO --- */
+        /* --- DISEÑO DE CONSOLA ABIERTA (APEGADO A LA IZQUIERDA) --- */
+        /* --- CONSOLA DE MANDO KIDOM (VERSION FINAL CORREGIDA) --- */
+        /* --- AJUSTE DE POSICIÓN: PARALELAS ABAJO --- */
+        /* --- CONSOLA DE MANDO KIDOM (ESTRUCTURA T) --- */
+        #registro { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-start; 
+            padding: 20px; 
+            gap: 25px; 
+            background-color: #f3f4f6;
+        }
+
+        .contenedor-inferior-apps {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 25px;
+            width: 100%;
+            max-width: 844px;
+        }
+
+        .bloque-registro {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            border-left: 10px solid var(--blue);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .bloque-identidad { max-width: 844px; border-left-color: var(--blue); }
+        .bloque-mision { flex: 1; border-left-color: var(--yellow); }
+        .bloque-pago { flex: 1; border-left-color: var(--dark); }
+
+        .titulo-seccion-new {
+            font-size: 13px; font-weight: 900; color: var(--dark);
+            margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* BOTÓN MODAL HORARIOS */
+        .btn-abrir-horarios {
+            width: 100%; padding: 12px; margin-top: 5px;
+            background: #f8fafc; border: 2px dashed #cbd5e1;
+            border-radius: 12px; color: var(--blue); font-weight: 800;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-abrir-horarios:hover { background: #eff6ff; border-color: var(--blue); }
+
+        /* ESTILO SELECT MODAL */
+        .select-modal-asis {
+            width: 100%; height: 250px !important; border: none;
+            font-family: 'Montserrat'; font-weight: 700; font-size: 13px; outline: none;
+        }
+        .select-modal-asis option { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .select-modal-asis option:checked { background: var(--yellow) !important; color: var(--dark); }
+
+        /* Contenedor para las dos tarjetas de abajo */
+        .contenedor-inferior-apps {
+            display: flex;
+            flex-direction: row; /* Las pone una al lado de la otra */
+            align-items: stretch; /* Mismo alto para ambas */
+            gap: 25px;
+            width: 100%;
+            max-width: 844px; /* Ajusta según prefieras el ancho */
+        }
+
+        .bloque-registro {
+            background: white;
+            padding: 15px;
+            border-radius: 25px;
+            border-left: 10px solid var(--blue);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bloque-identidad {
+    flex: 1; /* Cambiamos none por 1 */
+    min-width: 300px; /* Ancho mínimo para que no se rompa */
+    max-width: 802px; /* Tu ancho preferido */
+    border-left-color: var(--blue);
+}     }
+
+        /* Entrenamiento y Pago crecen igual */
+        .bloque-mision { flex: 1; border-left-color: var(--yellow); }
+        .bloque-pago { flex: 1; border-left-color: var(--dark); }
+
+        @media (max-width: 900px) {
+            .contenedor-inferior-apps { flex-direction: column; }
+        }
+
+        /* --- CSS PARA LA NUEVA TARJETA SIN TOCAR LO ANTERIOR --- */
+.fila-layout-superior {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1500px;
+    align-items: stretch;
+}
+
+.bloque-beneficios-new {
+    /* Flex 1 hará que tome TODO el espacio que sobre a la derecha */
+    flex: 1; 
+    /* Quitamos el max-width para que llegue hasta el borde derecho */
+    max-width: 600px; 
+    background: white;
+    padding: 20px;
+    border-radius: 25px;
+    border-left: 10px solid var(--green-wa);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.beneficio-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
         .form-container-wrapper { position: relative; padding: 25px; margin-top: 10px; flex-shrink: 0; }
         .tack { position: absolute; width: 22px; height: 22px; background: radial-gradient(circle at 35% 35%, #ffd700, #b8860b); border-radius: 50%; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); }
         .tack-tl { top: 10px; left: 10px; } .tack-tr { top: 10px; right: 10px; } .tack-bl { bottom: 10px; left: 10px; } .tack-br { bottom: 10px; right: 10px; }
@@ -224,38 +351,41 @@
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index: 100000; align-items:center; justify-content:center; }
         .modal-box { background: white; padding: 25px; border-radius: 30px; width: 90%; max-width: 380px; text-align: center; }
 
+/* --- ESTE ES EL PASO 2: COPIA DESDE AQUÍ --- */
         @media (max-width: 1024px) {
-            #registro[style*="display: flex"], 
-            #registro[style*="display:flex"] { 
-                flex-direction: column !important; 
-                align-items: center !important; 
-                overflow-y: visible !important;
+            #registro {
+                padding: 20px 10px !important;
+                display: flex !important;
+                flex-direction: column !important; /* Apila hacia abajo */
+                align-items: center !important;    /* Centra las tarjetas */
                 height: auto !important;
+                overflow-y: visible !important;
                 padding-bottom: 100px !important;
             }
 
-            .form-container-wrapper {
-                width: auto !important;
-                max-width: 95% !important;
-                display: inline-block !important;
-                margin: 10px auto !important;
+            /* Forzamos que las filas se vuelvan columnas y se centren */
+            .fila-layout-superior, .contenedor-inferior-apps {
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100% !important;
+                gap: 20px !important;
             }
 
-            .form-card, .cost-card { 
-                width: 100% !important; 
-                max-width: 380px !important; 
-                box-sizing: border-box !important;
+            /* Tus tarjetas: les quitamos el ancho fijo y las centramos */
+            .bloque-identidad, .bloque-beneficios-new, .bloque-mision, .bloque-pago {
+                width: 90% !important; 
+                max-width: 450px !important; 
+                flex: none !important;
+                margin: 0 auto !important;
             }
 
+            /* --- AQUÍ ESTÁN TUS PARCHES (NO LOS TOQUÉ) --- */
             .header { font-size: 16px !important; padding: 10px !important; }
-            .header span { text-align: center; }
             .grid-asis { grid-template-columns: 1fr !important; }
-            
-            /* Scroll activado para móvil */
             html, body { overflow-y: auto !important; }
             #main-app-container { height: auto !important; min-height: 100dvh; }
 
-            /* PARCHE DE TRANSPARENCIA */
+            /* TU PARCHE DE TRANSPARENCIA */
             #sel-horario {
                 background: transparent !important;
                 border: 2px solid rgba(38, 103, 255, 0.2) !important;
@@ -264,10 +394,12 @@
                 outline: none !important;
                 -webkit-appearance: none;
             }
-
             #sel-horario option { background: white !important; color: var(--dark) !important; }
-            #sel-horario:focus { background: transparent !important; }
+
+            /* Ajuste para que el formulario no se vea apretado */
+            #formReg { grid-template-columns: 1fr !important; }
         }
+        /* --- HASTA AQUÍ TERMINA EL REEMPLAZO --- */
     </style>
 </head>
 <body>
@@ -315,33 +447,88 @@
             <button class="tab-btn" id="btn-dashboard" onclick="showTab('dashboard')">CONTABILIDAD MENSUAL</button>
         </div>
         
-        <div id="registro" style="display: flex;">
-            <div class="form-container-wrapper"><div class="tack tack-tl"></div><div class="tack tack-tr"></div><div class="tack tack-bl"></div><div class="tack tack-br"></div><div class="form-card">
-                <form id="formReg">
-                    <label class="label-kidom">REGISTRO DE FOTO ESTUDIANTIL</label><input type="text" id="f_foto_url" class="select-kidom" placeholder="https://...">
-                    <label class="label-kidom">NOMBRE ESTUDIANTE KIDOM</label><input type="text" id="f_nombre" class="select-kidom" required>
-                    <label class="label-kidom">NOMBRE REPRESENTANTE O TUTOR</label><input type="text" id="f_rep" class="select-kidom" required>
-                    <label class="label-kidom">CORREO DEL REPRESENTANTE</label>
-<input type="email" id="f_correo_padre" class="select-kidom" placeholder="ejemplo@correo.com" required>
-                    <label class="label-kidom">GRUPO DE EDAD</label><select id="sel-grupo" class="select-kidom" onchange="actualizarHorarios()" required><option value="">Seleccionar...</option><option value="Exploradores">Exploradores</option><option value="Lideres">Lideres</option><option value="Campeones">Campeones</option></select>
-                    <label class="label-kidom">HORARIOS ASIGNADOS KIDOM</label><select id="sel-horario" class="select-kidom" multiple style="height: 110px;"></select>
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:1;"><label class="label-kidom">Plan KIDOM</label><select id="f_plan" class="select-kidom" onchange="calcularTotales()"><option value="Pro">Pro</option><option value="Max">Max</option><option value="Elite">Elite</option></select></div>
-                        <div style="flex:1;"><label class="label-kidom">DURACION PLAN KIDOM</label><select id="f_dur" class="select-kidom" onchange="calcularTotales()"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Trimestral PROMO">Trimestral PROMO</option><option value="Anual">Anual</option><option value="Anual PROMO">Anual PROMO</option></select></div>
-                    </div>
-                    <label class="label-kidom">WhatsApp</label><input type="tel" id="f_wa" class="select-kidom" placeholder="57..." required>
-                </form>
-            </div></div>
-            <div class="form-container-wrapper"><div class="tack tack-tl"></div><div class="tack tack-tr"></div><div class="tack tack-bl"></div><div class="tack tack-br"></div><div class="cost-card">
-                <label class="label-kidom">Método</label><select id="p-metodo" class="select-kidom" onchange="gestionarMetodoPago()"><option value="Efectivo">Efectivo</option><option value="Transferencia">Transferencia</option><option value="Tarjeta">Tarjeta (Payphone)</option></select>
-                <div id="div-bancos" style="display:none; margin-top:10px;"><select id="sel-banco" class="select-kidom" onchange="mostrarInfoBanco()"><option value="">Banco...</option><option value="Pichincha">Banco Pichincha</option><option value="Austro">Banco del Austro</option><option value="JEP">Cooperativa JEP</option><option value="Jardin">Jardín Azuayo</option></select><div id="info-banco" class="bank-info-box"></div></div>
-                <div id="info-tarjeta" class="card-info-box">Recargo Payphone del <b>6%</b> incluido en el total.</div>
-                <button id="btn-link-pago" class="select-kidom" style="background:var(--blue); color:white; font-weight:900; cursor:pointer; display:none; margin-top:15px;" onclick="abrirLinkTarjeta()">ABRIR LINK DE PAGO</button>
-                <div style="margin-top:20px; text-align:left;"><div class="cost-row"><span>Subtotal:</span><span id="txt-sub">$0.00</span></div><div class="cost-row"><span>IVA (15%):</span><span id="txt-iva">$0.00</span></div><div class="cost-row" id="row-recargo" style="display:none; color:#f97316;"><span>Recargo (6%):</span><span id="txt-recargo">$0.00</span></div><div class="cost-total"><span>Total:</span><span id="res-tot">$65.00</span></div></div>
-                <button type="button" id="btn-afiliar-main" class="btn-afiliar-kidom" onclick="ejecutarAccion('register')">AFILIAR Miembro KiDOM</button>
-                <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')">ACTUALIZAR DATOS</button>
-            </div></div>
+       <div id="registro" style="display: flex; flex-direction: column; gap: 25px; align-items: flex-start;">
+    
+    <div class="fila-layout-superior">
+        
+        <div class="bloque-registro bloque-identidad">
+            <div class="titulo-seccion-new"> DATOS DE REGISTRO KIDOM:</div>
+            <div style="display: flex; gap: 30px; align-items: center;">
+                <div style="text-align:center;">
+                    <img id="visor-foto-new" src="https://i.imgur.com/Y0d87u3.png" style="width: 100px; height: 100px; border-radius: 20px; object-fit: cover; border: 3px solid var(--blue);">
+                </div>
+                <div style="flex: 1;">
+                    <form id="formReg" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div><label class="label-kidom">ESTUDIANTE KIDOM:</label><input type="text" id="f_nombre" class="select-kidom" required></div>
+                        <div><label class="label-kidom">REPRESENTANTE O TUTOR:</label><input type="text" id="f_rep" class="select-kidom" required></div>
+                        <div><label class="label-kidom">CONTACTO DE EMERGENCIA:</label><input type="tel" id="f_wa" class="select-kidom" placeholder="+593000000000" required></div>
+                        <div style="grid-column: span 1;"><label class="label-kidom">CORREO ELECTRONICO:</label><input type="email" id="f_correo_padre" class="select-kidom" required></div>
+                        <div><label class="label-kidom">IDENTIDAD ESTUDIANTE</label><input type="text" id="f_foto_url" class="select-kidom" placeholder="Cargar foto tamaño carnet" oninput="document.getElementById('visor-foto-new').src=this.value"></div>
+                    </form>
+                </div>
+            </div>
         </div>
+
+        <div class="bloque-beneficios-new">
+            <div class="titulo-seccion-new">BENEFICIOS DE MEMBRESIA:</div>
+            <div id="lista-beneficios">
+                </div>
+        </div>
+
+    </div> <div class="contenedor-inferior-apps">
+        <div class="bloque-registro bloque-mision">
+            <div class="titulo-seccion-new">DATOS DE MEMBRESIA:</div>
+            <label class="label-kidom">GRUPO DE EDAD</label>
+            <select id="sel-grupo" class="select-kidom" onchange="actualizarHorarios()" required>
+                <option value="">Seleccione un Grupo</option>
+                <option value="Exploradores">Exploradores - 3 a 6 Años</option>
+                <option value="Lideres">Lideres - 7 a 10 Años</option>
+                <option value="Campeones">Campeones - 11 a 14 Años</option>
+            </select>
+            <label class="label-kidom">PLAN ELEGIDO KIDOM</label>
+            <select id="f_plan" class="select-kidom" onchange="calcularTotales()">
+                <option value="Pro">Pro - 2 Sesiones Semanales</option>
+                <option value="Max">Max - 3 Sesiones Semanales</option>
+                <option value="Elite">Elite - 5 Sesiones Semanales</option>
+            </select>
+            <label class="label-kidom">DURACIÓN DE MEMBRESIA</label>
+            <select id="f_dur" class="select-kidom" onchange="calcularTotales()">
+                <option value="Mensual">Mensual</option>
+                <option value="Trimestral">Trimestral</option>
+                <option value="Trimestral PROMO">Promocion Trimestral</option>
+                <option value="Anual">Anual</option>
+                <option value="Anual PROMO">Promocion Anual</option>
+            </select>
+            <label class="label-kidom">Horarios Asignados</label>
+            <button type="button" class="btn-abrir-horarios" onclick="document.getElementById('modalHorarios').style.display='flex'">📅 ELEGIR HORARIOS</button>
+            <select id="sel-horario" multiple style="display:none;"></select>
+        </div>
+
+        <div class="bloque-registro bloque-pago">
+            <div class="titulo-seccion-new">METODO DE PAGO</div>
+            <label class="label-kidom">ELIGE TU FORMA DE PAGO</label>
+            <select id="p-metodo" class="select-kidom" onchange="gestionarMetodoPago()">
+                <option value="Efectivo">Efectivo en Oficina</option>
+                <option value="Transferencia">Transferencia Bancaria</option>
+                <option value="Tarjeta">Tarjeta de Crédito</option>
+            </select>
+            <div id="div-bancos" style="display:none; margin-top:5px;">
+                <select id="sel-banco" class="select-kidom" onchange="mostrarInfoBanco()"><option value="">Selecciona tu banco</option><option value="Pichincha">Banco Pichincha</option><option value="Austro">Banco del Austro</option><option value="JEP">Cooperativa JEP</option><option value="Jardin">Cooperativa Jardin Azuayo</option></select>
+                <div id="info-banco" class="bank-info-box"></div>
+            </div>
+            <button id="btn-link-pago" class="select-kidom" style="background:var(--blue); color:white; font-weight:900; display:none; margin-top:10px;" onclick="abrirLinkTarjeta()">PAGOS EN LINEA</button>
+
+            <div style="margin-top: auto; border-top: 1px dashed #eee; padding-top: 15px;">
+                <div class="cost-row">Subtotal: <span id="txt-sub">$0.00</span></div>
+                <div class="cost-row">IVA (15%): <span id="txt-iva">$0.00</span></div>
+                <div class="cost-row" id="row-recargo" style="display:none; color: #f97316;">Recargo Tarjeta: <span id="txt-recargo">$0.00</span></div>
+                <div class="cost-total" style="border:none; padding:0; font-size: 26px; margin-top:5px;">TOTAL: <span id="res-tot">$65.00</span></div>
+            </div>
+            <button type="button" id="btn-afiliar-main" class="btn-afiliar-kidom" onclick="ejecutarAccion('register')" style="margin-top:10px;">REGISTRAR MEMBRESIA</button>
+            <button type="button" id="btn-update-main" class="btn-update-kidom" onclick="ejecutarAccion('asistencia')" style="margin-top:10px;">💾 GUARDAR</button>
+        </div>
+    </div>
+</div>
         
         <div id="asistencia">
             <div style="margin-bottom: 20px; position: relative; max-width: 500px;">
@@ -520,19 +707,34 @@
         }).join('');
     }
 
-    async function ejecutarAccion(modo) {
+   async function ejecutarAccion(modo) {
     const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main');
     const originalText = btn.innerText;
     btn.innerText = "PROCESANDO..."; btn.disabled = true;
 
-    // Capturamos el Plan y el Método de los SELECTS correctos
+    // 1. CAPTURA DE VALORES
     const valPlan = document.getElementById('f_plan').value;
+    const valDuracion = document.getElementById('f_dur').value;
     const valMetodo = document.getElementById('p-metodo').value;
     const valMonto = document.getElementById('res-tot').innerText.replace('$', '').trim();
-
     const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-    
-    // Construimos la URL asegurándonos que coincida con el .gs
+
+    // 2. LÓGICA DE SESIONES (TU REGLA DE NEGOCIO)
+    let sesionesPorMes = 0;
+    if (valPlan === "Pro") sesionesPorMes = 8;
+    else if (valPlan === "Max") sesionesPorMes = 12;
+    else if (valPlan === "Elite") sesionesPorMes = 20;
+
+    let multiplicadorMeses = 1;
+    if (valDuracion === "Mensual") multiplicadorMeses = 1;
+    else if (valDuracion === "Trimestral") multiplicadorMeses = 3;
+    else if (valDuracion === "Trimestral PROMO") multiplicadorMeses = 4; // x4 por promo
+    else if (valDuracion === "Anual") multiplicadorMeses = 12;
+    else if (valDuracion === "Anual PROMO") multiplicadorMeses = 16; // x16 por promo
+
+    const totalSesiones = sesionesPorMes * multiplicadorMeses;
+
+    // 3. CONSTRUCCIÓN DE LA URL
     const query = `?action=${modo}` +
         `&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}` +
         `&representante=${encodeURIComponent(document.getElementById('f_rep').value)}` +
@@ -540,15 +742,15 @@
         `&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}` +
         `&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}` +
         `&monto=${encodeURIComponent(valMonto)}` +
-        `&plan=${encodeURIComponent(valPlan)}` +   // Enviamos 'plan'
-        `&metodo=${encodeURIComponent(valMetodo)}` + // Enviamos 'metodo'
+        `&plan=${encodeURIComponent(valPlan)}` +
+        `&metodo=${encodeURIComponent(valMetodo)}` +
         `&horarios=${encodeURIComponent(h)}` +
-        `&sesiones=12` + // O el cálculo que tengas
+        `&sesiones=${totalSesiones}` + // <--- AQUÍ SE ENVÍA EL CÁLCULO CORRECTO
         `&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
     
     try { 
         await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
-        alert("¡REGISTRO EXITOSO!"); 
+        alert(`¡REGISTRO EXITOSO! Total de sesiones cargadas: ${totalSesiones}`); 
         limpiarForm();
         loadData(); 
     } catch(e){
@@ -581,50 +783,119 @@
         document.getElementById('btn-update-main').style.display = 'block';
     }
 
-    function actualizarHorarios() { 
-        const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
-        const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
-        if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
-        if (window.matchMedia("(pointer: coarse)").matches) {
-            sel.onmousedown = null;
-            sel.onchange = calcularTotales;
-        } else {
-            sel.onmousedown = function(e) {
-                e.preventDefault();
-                var scroll = this.scrollTop;
-                e.target.selected = !e.target.selected;
-                setTimeout(() => { this.scrollTop = scroll; }, 0);
-                calcularTotales();
-                return false;
-            };
+   function actualizarHorarios() { 
+    const sel = document.getElementById('sel-horario'); 
+    const selModal = document.getElementById('sel-horario-modal');
+    
+    sel.innerHTML = ''; 
+    if(selModal) selModal.innerHTML = ''; 
+    
+    const g = document.getElementById('sel-grupo').value; 
+    const HM = { 
+        Exploradores: ["LUN_15H", "LUN_18H", "MAR_15H", "MAR_18H", "MIE_16H", "JUE_16H", "JUE_18H", "VIE_15H", "VIE_18H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], 
+        Lideres: ["LUN_17H", "MAR_16H", "MIE_17H", "MIE_18H", "JUE_17H", "VIE_17H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"], 
+        Campeones: ["LUN_16H", "LUN_19H", "MAR_17H", "MIE_17H", "MIE_19H", "JUE_19H", "VIE_16H", "VIE_19H", "SAB_09H", "SAB_10H_FAM", "SAB_11H_FAM", "SAB_12H_FAM"] 
+    };
+
+    if(HM[g]) {
+        HM[g].forEach(h => { 
+            const o = document.createElement('option'); 
+            o.value = h; 
+            o.innerText = h.replace('_',' - ') + (h.includes('_') ? "00" : ""); 
+            
+            // Clon para el select oculto
+            sel.appendChild(o.cloneNode(true));
+
+            // Para el modal: agregamos el comportamiento de selección fácil
+            if(selModal) {
+                const oModal = o.cloneNode(true);
+                oModal.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // Evita el comportamiento azul por defecto
+                    this.selected = !this.selected; // Cambia el estado
+                    sincronizarHorarios(); // Avisa al select oculto
+                    return false;
+                });
+                selModal.appendChild(oModal);
+            }
+        });
+    }
+}
+
+    function sincronizarHorarios() {
+        const modalSelect = document.getElementById('sel-horario-modal');
+        const realSelect = document.getElementById('sel-horario');
+        
+        if(!modalSelect || !realSelect) return;
+
+        // Recorremos el modal y aplicamos la misma selección al oculto
+        for (let i = 0; i < modalSelect.options.length; i++) {
+            if (realSelect.options[i]) {
+                realSelect.options[i].selected = modalSelect.options[i].selected;
+            }
         }
+        
+        // Llamamos a calcular totales por si el precio depende del número de horas
+        if(typeof calcularTotales === "function") calcularTotales();
     }
     
     function calcularTotales() { 
-        const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value, m = document.getElementById('p-metodo').value; 
-        const pr = { Pro:{Mensual:65, Trimestral:180, "Trimestral PROMO":180, Anual:620}, Max:{Mensual:85, Trimestral:230, "Trimestral PROMO":230, Anual:880}, Elite:{Mensual:115, Trimestral:320, "Trimestral PROMO":320, Anual:1200} }; 
-        let base = pr[p][d] || 65, rec = (m==='Tarjeta')?base*0.06:0; 
-        document.getElementById('row-recargo').style.display=(m==='Tarjeta')?'flex':'none'; document.getElementById('txt-recargo').innerText=`$${rec.toFixed(2)}`; 
-        const sub=base/1.15; document.getElementById('txt-sub').innerText=`$${sub.toFixed(2)}`; document.getElementById('txt-iva').innerText=`$${(base-sub).toFixed(2)}`; 
-        document.getElementById('res-tot').innerText=`$${(base+rec).toFixed(2)}`; 
+    const p = document.getElementById('f_plan').value;
+    const d = document.getElementById('f_dur').value;
+    const m = document.getElementById('p-metodo').value; 
+    
+    const pr = { 
+        Pro:{Mensual:65, Trimestral:180, "Trimestral PROMO":180, Anual:620}, 
+        Max:{Mensual:85, Trimestral:230, "Trimestral PROMO":230, Anual:880}, 
+        Elite:{Mensual:115, Trimestral:320, "Trimestral PROMO":320, Anual:1200} 
+    }; 
+
+    let base = pr[p][d] || 65;
+    let rec = (m === 'Tarjeta') ? (base * 0.06) : 0; 
+
+    // MOSTRAR/OCULTAR RECARGO
+    const filaRecargo = document.getElementById('row-recargo');
+    if(m === 'Tarjeta') {
+        filaRecargo.style.display = 'flex';
+        document.getElementById('txt-recargo').innerText = `$${rec.toFixed(2)}`;
+    } else {
+        filaRecargo.style.display = 'none';
     }
 
-    function gestionarMetodoPago() { const m = document.getElementById('p-metodo').value; document.getElementById('div-bancos').style.display=(m==='Transferencia')?'block':'none'; document.getElementById('btn-link-pago').style.display=(m==='Tarjeta')?'block':'none'; document.querySelector('.card-info-box').style.display=(m==='Tarjeta')?'block':'none'; calcularTotales(); }
+    // CÁLCULOS FINALES
+    const sub = base / 1.15; 
+    document.getElementById('txt-sub').innerText = `$${sub.toFixed(2)}`; 
+    document.getElementById('txt-iva').innerText = `$${(base - sub).toFixed(2)}`; 
+    document.getElementById('res-tot').innerText = `$${(base + rec).toFixed(2)}`; 
+
+    actualizarVisualizacionBeneficios();
+}
+
+    function gestionarMetodoPago() { 
+    const m = document.getElementById('p-metodo').value; 
+    // Usamos .includes para que si dice "TARJETA DE CREDITO" lo detecte igual
+    document.getElementById('div-bancos').style.display = (m.includes('Transferencia')) ? 'block' : 'none'; 
+    document.getElementById('btn-link-pago').style.display = (m.includes('Tarjeta')) ? 'block' : 'none'; 
+    
+    // Volvemos a calcular para que aparezca el recargo inmediatamente
+    calcularTotales(); 
+}
+
     function mostrarInfoBanco() { const b = document.getElementById('sel-banco').value; document.getElementById('info-banco').innerHTML = b ? DB[b] : ''; document.getElementById('info-banco').style.display = b ? 'block' : 'none'; }
     function abrirLinkTarjeta() { const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value.split(' ')[0]; if(LP[p] && LP[p][d]) window.open(LP[p][d], '_blank'); }
     
     function showTab(t) { 
         // 1. Ocultar todas las secciones
-        ['registro', 'asistencia', 'calendario', 'dashboard'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.style.display = 'none';
-        }); 
+      ['registro', 'asistencia', 'calendario', 'dashboard'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.setProperty('display', 'none', 'important');
+    });
 
         // 2. Mostrar la sección activa con el display correcto
         const target = document.getElementById(t);
-        if (target) {
-            target.style.display = (t === 'registro') ? 'flex' : 'block'; 
-        }
+    if (target) {
+        const displayType = (t === 'registro') ? 'flex' : 'block';
+        target.style.setProperty('display', displayType, 'important');
+    }
 
         // 3. Gestionar botones activos
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
@@ -673,7 +944,7 @@
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     document.getElementById('main-app-container').style.display = 'flex';
-                    
+                    establecerMesActual();
                     // --- CORRECCIÓN AQUÍ ---
                     // Forzamos que entre a Registro y esconda la sidebar de una vez
                     showTab('registro'); 
@@ -856,6 +1127,67 @@
         });
     }
 }
+
+function actualizarVisualizacionBeneficios() {
+    const plan = document.getElementById('f_plan').value; // Pro, Max, Elite
+    const dur = document.getElementById('f_dur').value;  // Mensual, Trimestral, Anual, etc.
+    const lista = document.getElementById('lista-beneficios');
+    if(!lista) return;
+
+    // Diccionario de beneficios según tu lista exacta
+    const beneficios = [
+        { t: "Sesiones KidOm Semanales", p: ["Pro", "Max", "Elite"], d: ["Mensual", "Trimestral", "Trimestral PROMO", "Anual", "Anual PROMO"] },
+        { t: "Familia Activa - Entrenamiento con Padres", p: ["Pro", "Max", "Elite"], d: ["Mensual", "Trimestral", "Trimestral PROMO", "Anual", "Anual PROMO"] },
+        { t: "KidOm Fest - Evento de Integracion", p: ["Pro", "Max", "Elite"], d: ["Mensual", "Trimestral", "Trimestral PROMO", "Anual", "Anual PROMO"] },
+        { t: "Aplicacion Portal de Padres", p: ["Pro", "Max", "Elite"], d: ["Mensual", "Trimestral", "Trimestral PROMO", "Anual", "Anual PROMO"] },
+        
+        // Beneficios condicionales por Plan o Duración
+        { 
+            t: "Camiseta Oficial KidOm", 
+            check: (plan === "Max" || plan === "Elite" || (plan === "Pro" && dur !== "Mensual")) 
+        },
+        { 
+            t: "Universidad de Padres - Entrenamiento a Padres", 
+            check: (plan === "Elite" || (dur !== "Mensual")) 
+        },
+        { 
+            t: "Colonia Vacacional - Mes Julio a Agosto", 
+            check: (dur !== "Mensual") 
+        },
+        { 
+            t: "Kit KidOm (Mochila y Termo)", 
+            check: (dur.includes("Anual") || (plan === "Elite" && dur.includes("Trimestral"))) 
+        },
+        { 
+            t: "Celebración de Cumpleaños", 
+            check: (plan === "Elite" && dur.includes("Anual")) || (plan === "Max" && dur.includes("Anual"))
+        }
+    ];
+
+    lista.innerHTML = beneficios.map(b => {
+        // Si tiene la propiedad 'check' usamos esa lógica, si no, comparamos arrays
+        const activo = b.check !== undefined ? b.check : (b.p.includes(plan) && b.d.includes(dur));
+
+        return `
+            <div class="beneficio-item" style="opacity: ${activo ? '1' : '0.3'}; display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 14px;">${activo ? '✅' : '🔒'}</span>
+                <span style="${activo ? 'color: #1e293b; font-weight: 800;' : 'text-decoration: line-through; color: #94a3b8; font-weight: 600;'}">
+                    ${b.t}
+                </span>
+            </div>
+        `;
+    }).join('');
+}
+
+function establecerMesActual() {
+    const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    const mesHoy = meses[new Date().getMonth()]; // Obtiene el mes actual (0-11)
+    
+    const selector = document.getElementById('select-mes-dashboard');
+    if (selector) {
+        selector.value = mesHoy;
+    }
+}
 </script>
 
 <div class="modal-overlay" id="modalReporte">
@@ -887,6 +1219,14 @@
                 <button style="flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 900; background: #eee; cursor: pointer; font-size: 12px;" onclick="cerrarModal('modalReporte')">CANCELAR</button>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalHorarios">
+    <div class="modal-box">
+        <h3>SELECCIÓN DE SESIONES</h3>
+        <select id="sel-horario-modal" class="select-modal-asis" multiple onchange="sincronizarHorarios()"></select>
+        <button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--yellow); color:var(--dark); cursor:pointer; margin-top:20px;" onclick="cerrarModal('modalHorarios')">CONFIRMAR HORARIOS</button>
     </div>
 </div>
 </body>

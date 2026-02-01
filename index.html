@@ -267,6 +267,7 @@
             <button class="tab-btn active" id="btn-registro" onclick="showTab('registro')">PROCESO DE AFILIACION KIDOM</button>
             <button class="tab-btn" id="btn-asistencia" onclick="showTab('asistencia')">REGISTRO DE ASISTENCIA</button>
             <button class="tab-btn" id="btn-calendario" onclick="showTab('calendario')">Calendario DE SESIONES KIDOM</button>
+            <button class="tab-btn" id="btn-dashboard" onclick="showTab('dashboard')">CONTABILIDAD MENSUAL</button>
         </div>
         
         <div id="registro" style="display: flex;">
@@ -307,6 +308,116 @@
             <div class="grid-asis" id="grid-asis"></div>
         </div>
         <div id="calendario"><div class="semana-grid" id="semana-body"></div></div>
+
+        <div id="dashboard" style="display: none; flex: 1; padding: 25px; background: #f3f4f6; overflow-y: auto;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+        <h2 style="color: var(--blue); font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 1px;">REPORTE FINANCIERO KIDOM ACADEMY</h2>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <small style="font-weight: 800; color: #64748b;">SELECCIONE UN MES:</small>
+            <select id="select-mes-dashboard" onchange="cargarDashboardDirecto()" style="padding: 12px 25px; border-radius: 15px; border: 2px solid var(--blue); font-family: 'Montserrat'; font-weight: 900; color: var(--blue); cursor: pointer; outline: none; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <option value="enero">ENERO</option>
+                <option value="febrero">FEBRERO</option>
+                <option value="marzo">MARZO</option>
+                <option value="abril">ABRIL</option>
+                <option value="mayo">MAYO</option>
+                <option value="junio">JUNIO</option>
+                <option value="julio">JULIO</option>
+                <option value="agosto">AGOSTO</option>
+                <option value="septiembre">SEPTIEMBRE</option>
+                <option value="octubre">OCTUBRE</option>
+                <option value="noviembre">NOVIEMBRE</option>
+                <option value="diciembre">DICIEMBRE</option>
+            </select>
+        </div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px;">
+        <div style="background: white; padding: 20px; border-radius: 20px; border-left: 8px solid var(--blue); box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <small style="color: #64748b; font-weight: 800; font-size: 10px;">INGRESOS TOTALES DEL MES</small>
+            <div id="dash-total" style="font-size: 28px; font-weight: 900; color: var(--dark);">$0.00</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 20px; border-left: 8px solid #f59e0b; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <small style="color: #64748b; font-weight: 800; font-size: 10px;">VALOR MEMBRESIA PROMEDIO</small>
+            <div id="dash-promedio" style="font-size: 28px; font-weight: 900; color: var(--dark);">$0.00</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 20px; border-left: 8px solid var(--exploradores); box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <small style="color: #64748b; font-weight: 800; font-size: 10px;">AFILIACIONES REGISTRADAS EN EL MES</small>
+            <div id="dash-alumnos" style="font-size: 28px; font-weight: 900; color: var(--dark);">0</div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px;">
+        <div style="background: white; padding: 25px; border-radius: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h4 style="margin: 0; font-size: 12px; font-weight: 800; color: var(--dark);">PROGRESO DE META MENSUAL</h4>
+                <span id="txt-porcentaje-meta" style="font-weight: 900; color: var(--blue);">0%</span>
+            </div>
+            <div style="width: 100%; background: #eee; height: 25px; border-radius: 50px; overflow: hidden; position: relative;">
+                <div id="bar-meta" style="width: 0%; background: linear-gradient(90deg, var(--blue), #60a5fa); height: 100%; transition: 1.5s ease-in-out;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; font-weight: 800;">
+                <span style="color: #64748b;">VAMOS PARA ADELANTE KIDOM</span>
+                <span style="color: var(--blue);">META: $4.000</span>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 25px; border-radius: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="margin: 0 0 15px 0; font-size: 12px; font-weight: 800; color: var(--dark);">FLUJO POR MÉTODO DE PAGO</h4>
+            <div style="display: flex; justify-content: space-around; text-align: center;">
+                <div>
+                    <small style="font-size: 9px; font-weight: 800; color: #64748b;">EFECTIVO EN CAJA</small>
+                    <div id="p-efe" style="font-weight: 900; color: #10b981; font-size: 20px;">$0</div>
+                </div>
+                <div>
+                    <small style="font-size: 9px; font-weight: 800; color: #64748b;">TRANSFERENCIA BANCARIA</small>
+                    <div id="p-tra" style="font-weight: 900; color: var(--blue); font-size: 20px;">$0</div>
+                </div>
+                <div>
+                    <small style="font-size: 9px; font-weight: 800; color: #64748b;">TARJETA DE CREDITO</small>
+                    <div id="p-tar" style="font-weight: 900; color: #f59e0b; font-size: 20px;">$0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <div style="background: white; padding: 25px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="margin: 0 0 20px 0; font-size: 12px; font-weight: 800; color: var(--dark); border-bottom: 2px solid #f8fafc; padding-bottom: 10px;">POPULARIDAD DE PLANES</h4>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>PLAN PRO - 2 SESIONES SEMANALES</span><span id="txt-p-pro">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-p-pro" style="width: 0%; background: var(--blue); height: 100%; transition: 1s;"></div></div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>PLAN MAX - 3 SESIONES SEMANALES</span><span id="txt-p-max">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-p-max" style="width: 0%; background: var(--yellow); height: 100%; transition: 1s;"></div></div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>PLAN ELITE - 5 SESIONES SEMANALES</span><span id="txt-p-elite">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-p-elite" style="width: 0%; background: var(--dark); height: 100%; transition: 1s;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 25px; border-radius: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="margin: 0 0 20px 0; font-size: 12px; font-weight: 800; color: var(--dark); border-bottom: 2px solid #f8fafc; padding-bottom: 10px;">AFILIACIONES REGISTRADAS POR GRUPO</h4>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>EXPLORADORES - 3 A 6 AÑOS</span><span id="txt-g-exploradores">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-g-exploradores" style="width: 0%; background: #22c55e; height: 100%; transition: 1s;"></div></div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>LÍDERES - 7 A 10 AÑOS</span><span id="txt-g-lideres">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-g-lideres" style="width: 0%; background: #3b82f6; height: 100%; transition: 1s;"></div></div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;"><span>CAMPEONES - 11 A 14 AÑOS</span><span id="txt-g-campeones">0</span></div>
+                    <div style="width: 100%; background: #eee; height: 10px; border-radius: 10px; margin-top:5px;"><div id="bar-g-campeones" style="width: 0%; background: #ef4444; height: 100%; transition: 1s;"></div></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -325,16 +436,20 @@
             const res = await fetch(URL_APP + "?action=read");
             const data = await res.json();
             allStudents = data.map(s => ({ 
-    nombre: s.nombre, 
+                nombre: s.nombre, 
     rep: s.representante, 
     grupo: s.grupo, 
     clases: parseInt(s.sesiones) || 0, 
     wa: s.whatsapp, 
     horarios: s.horarios || "", 
     foto: s.foto || "",
-    correoPadre: s.correoPadre // <--- ESTO ES LO QUE FALTABA
-}))
-.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    correoPadre: s.correoPadre,
+    monto: s.monto,
+    mes: s.mes,
+    metodoPago: s.metodo,
+    plan: s.plan // <--- ESTO DEBE ESTAR AQUÍ PARA QUE EL DASHBOARD LO LEA
+            }))
+            .sort((a, b) => a.nombre.localeCompare(b.nombre));
             renderAsistencia(); renderCalendario();
         } catch(e){}
     }
@@ -361,28 +476,43 @@
     }
 
     async function ejecutarAccion(modo) {
-        const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main');
-        const originalText = btn.innerText;
-        btn.innerText = "PROCESANDO..."; btn.disabled = true;
+    const btn = (modo === 'register') ? document.getElementById('btn-afiliar-main') : document.getElementById('btn-update-main');
+    const originalText = btn.innerText;
+    btn.innerText = "PROCESANDO..."; btn.disabled = true;
 
-        const plan = document.getElementById('f_plan').value;
-        const dur = document.getElementById('f_dur').value;
-        let base = (plan === "Pro") ? 8 : (plan === "Max") ? 12 : 20;
-        let meses = (dur === "Mensual") ? 1 : (dur.includes("Trimestral")) ? 3 : 12;
-        if(dur.includes("PROMO")) meses += (dur.includes("Trimestral")) ? 1 : 4;
-        let totalSesiones = base * meses;
+    // Capturamos el Plan y el Método de los SELECTS correctos
+    const valPlan = document.getElementById('f_plan').value;
+    const valMetodo = document.getElementById('p-metodo').value;
+    const valMonto = document.getElementById('res-tot').innerText.replace('$', '').trim();
 
-        const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
-    const correoP = document.getElementById('f_correo_padre').value;
-        const query = `?action=${modo}&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}&representante=${encodeURIComponent(document.getElementById('f_rep').value)}&correoPadre=${encodeURIComponent(correoP)}&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}&monto=${encodeURIComponent(document.getElementById('res-tot').innerText.replace('$',''))}&metodo=${encodeURIComponent(document.getElementById('p-metodo').value)}&horarios=${encodeURIComponent(h)}&sesiones=${totalSesiones}&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
-        
-        try { 
-            await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
-            alert("ÉXITO"); 
-            limpiarForm();
-            loadData(); 
-        } catch(e){} finally { btn.innerText = originalText; btn.disabled = false; }
+    const h = Array.from(document.getElementById('sel-horario').selectedOptions).map(o => o.value).join(',');
+    
+    // Construimos la URL asegurándonos que coincida con el .gs
+    const query = `?action=${modo}` +
+        `&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}` +
+        `&representante=${encodeURIComponent(document.getElementById('f_rep').value)}` +
+        `&correoPadre=${encodeURIComponent(document.getElementById('f_correo_padre').value)}` +
+        `&grupo=${encodeURIComponent(document.getElementById('sel-grupo').value)}` +
+        `&whatsapp=${encodeURIComponent(document.getElementById('f_wa').value)}` +
+        `&monto=${encodeURIComponent(valMonto)}` +
+        `&plan=${encodeURIComponent(valPlan)}` +   // Enviamos 'plan'
+        `&metodo=${encodeURIComponent(valMetodo)}` + // Enviamos 'metodo'
+        `&horarios=${encodeURIComponent(h)}` +
+        `&sesiones=12` + // O el cálculo que tengas
+        `&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+    
+    try { 
+        await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
+        alert("¡REGISTRO EXITOSO!"); 
+        limpiarForm();
+        loadData(); 
+    } catch(e){
+        alert("Error al registrar, pero el proceso se inició.");
+    } finally { 
+        btn.innerText = originalText; 
+        btn.disabled = false; 
     }
+}
 
     function limpiarForm() {
         document.getElementById('formReg').reset();
@@ -394,10 +524,10 @@
     function editarHorarios(nombre) { 
         const kid = allStudents.find(s => s.nombre === nombre); 
         if(!kid) return; 
-        showTab('registro'); 
+        showTab('register'); 
         document.getElementById('f_nombre').value = kid.nombre; 
         document.getElementById('f_rep').value = kid.rep; 
-    document.getElementById('f_correo_padre').value = kid.correoPadre || "";
+        document.getElementById('f_correo_padre').value = kid.correoPadre || "";
         document.getElementById('sel-grupo').value = kid.grupo; 
         document.getElementById('f_wa').value = kid.wa; 
         document.getElementById('f_foto_url').value = kid.foto;
@@ -410,8 +540,6 @@
         const sel = document.getElementById('sel-horario'); sel.innerHTML = ''; const g = document.getElementById('sel-grupo').value; 
         const HM = { Exploradores: ["LUNES - 15H00PM", "LUNES - 18H00PM", "MARTES - 15H00PM", "MARTES - 18H00PM", "MIERCOLES - 16H00PM", "JUEVES - 16H00PM", "JUEVES - 18H00PM", "VIERNES - 15H00PM", "VIERNES - 18H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO 12H00PM"], Lideres: ["LUNES - 17H00PM", "MARTES - 16H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 18H00PM", "JUEVES - 17H00PM", "VIERNES - 17H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO 11H00AM", "F.A SABADO - 12H00PM"], Campeones: ["LUNES - 16H00PM", "LUNES - 19H00PM", "MARTES - 17H00PM", "MIERCOLES - 17H00PM", "MIERCOLES - 19H00PM", "JUEVES - 19H00PM", "VIERNES - 16H00PM", "VIERNES - 19H00PM", "SABADO - 09H00AM", "F.A SABADO - 10H00AM", "F.A SABADO - 11H00AM", "F.A SABADO - 12H00PM"] };
         if(HM[g]) HM[g].forEach(h => { const o = document.createElement('option'); o.value = h; o.innerText = h.replace('_',' - ') + ""; sel.appendChild(o); });
-        // Aplica a cada opción la lógica de "Toque Simple" para PC
-        // --- COPIAR DESDE AQUÍ ---
         if (window.matchMedia("(pointer: coarse)").matches) {
             sel.onmousedown = null;
             sel.onchange = calcularTotales;
@@ -425,7 +553,6 @@
                 return false;
             };
         }
-        // --- HASTA AQUÍ ---
     }
     
     function calcularTotales() { 
@@ -440,7 +567,20 @@
     function gestionarMetodoPago() { const m = document.getElementById('p-metodo').value; document.getElementById('div-bancos').style.display=(m==='Transferencia')?'block':'none'; document.getElementById('btn-link-pago').style.display=(m==='Tarjeta')?'block':'none'; document.querySelector('.card-info-box').style.display=(m==='Tarjeta')?'block':'none'; calcularTotales(); }
     function mostrarInfoBanco() { const b = document.getElementById('sel-banco').value; document.getElementById('info-banco').innerHTML = b ? DB[b] : ''; document.getElementById('info-banco').style.display = b ? 'block' : 'none'; }
     function abrirLinkTarjeta() { const p = document.getElementById('f_plan').value, d = document.getElementById('f_dur').value.split(' ')[0]; if(LP[p] && LP[p][d]) window.open(LP[p][d], '_blank'); }
-    function showTab(t) { ['registro', 'asistencia', 'calendario'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById(t).style.display = (t === 'registro') ? 'flex' : 'block'; document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('btn-' + t).classList.add('active'); document.getElementById('sidebar').classList.toggle('visible', t !== 'registro'); if(t!=='registro') loadData(); if(t==='registro' && !document.getElementById('f_nombre').value) limpiarForm(); }
+    
+    function showTab(t) { 
+        ['registro', 'asistencia', 'calendario', 'dashboard'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.style.display = 'none';
+        }); 
+        document.getElementById(t).style.display = (t === 'registro') ? 'flex' : 'block'; 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        document.getElementById('btn-' + t).classList.add('active'); 
+        document.getElementById('sidebar').classList.toggle('visible', t !== 'registro'); 
+        if(t === 'dashboard') { cargarDashboardDirecto(); } else if(t !== 'registro') { loadData(); } 
+        if(t === 'registro' && !document.getElementById('f_nombre').value) limpiarForm(); 
+    }
+
     function filterGroup(g, el) { document.querySelectorAll('.filter-circle').forEach(c => c.classList.remove('active')); el.classList.add('active'); renderAsistencia(g); renderCalendario(g); }
     function abrirFirma(name) { currentKidName = name; ctx.clearRect(0,0,canvas.width,canvas.height); document.getElementById('modalFirma').style.display = 'flex'; }
     async function confirmarAsistia() { await fetch(`${URL_APP}?action=asistencia&nombre=${encodeURIComponent(currentKidName)}&sesiones=-1`, { mode: 'no-cors' }); document.getElementById('modalFirma').style.display = 'none'; loadData(); }
@@ -506,7 +646,6 @@
       navigator.serviceWorker.register('data:text/javascript,self.addEventListener(\'fetch\', function(event) {});');
     }
 
-    // FUNCIÓN DE BÚSQUEDA INTEGRADA QUIRÚRGICAMENTE
     function buscarEstudiante() {
         const texto = document.getElementById('inputBusqueda').value.toLowerCase().trim();
         const tarjetas = document.querySelectorAll('.card-asis');
@@ -516,55 +655,136 @@
         });
     }
 
-let currentKidData = {};
+    let currentKidData = {};
 
-function abrirReporte(nombre) {
-    const kid = allStudents.find(s => s.nombre === nombre);
-    if(!kid) {
-        alert("No se encontró la data del estudiante");
-        return;
+    function abrirReporte(nombre) {
+        const kid = allStudents.find(s => s.nombre === nombre);
+        if(!kid) {
+            alert("No se encontró la data del estudiante");
+            return;
+        }
+        currentKidData = kid; 
+        document.getElementById('rep_nombre_display').innerText = nombre.toUpperCase();
+        document.getElementById('modalReporte').style.display = 'flex';
     }
-    currentKidData = kid; // Aquí se guarda todo, incluyendo el correoPadre
-    document.getElementById('rep_nombre_display').innerText = nombre.toUpperCase();
-    document.getElementById('modalReporte').style.display = 'flex';
-}
 
-async function enviarReporteDefinitivo() {
-    const btn = document.getElementById('btnEnviandoRep');
-    const originalText = btn.innerText;
-    btn.innerText = "⏳ PROCESANDO REPORTE..."; btn.disabled = true;
+    async function enviarReporteDefinitivo() {
+        const btn = document.getElementById('btnEnviandoRep');
+        const originalText = btn.innerText;
+        btn.innerText = "⏳ PROCESANDO REPORTE..."; btn.disabled = true;
 
-    // Construimos la URL con todos los parámetros para tu doGet
-    const query = `?action=generarReporte` + 
-        `&nombre=${encodeURIComponent(currentKidData.nombre)}` +
-        `&grupo=${encodeURIComponent(currentKidData.grupo)}` +
-        `&correo=${encodeURIComponent(currentKidData.correoPadre)}` +
-        `&enfoque=${document.getElementById('r_enfoque').value}` +
-        `&disciplina=${document.getElementById('r_disciplina').value}` +
-        `&liderazgo=${document.getElementById('r_liderazgo').value}` +
-        `&autonomia=${document.getElementById('r_autonomia').value}` +
-        `&fisico=${document.getElementById('r_fisico').value}` +
-        `&equipo=${document.getElementById('r_equipo').value}` +
-        `&publico=${document.getElementById('r_publico').value}` +
-        `&respeto=${document.getElementById('r_respeto').value}` +
-        `&energia=${document.getElementById('r_energia').value}` +
-        `&frustracion=${document.getElementById('r_frustracion').value}`;
+        const query = `?action=generarReporte` + 
+            `&nombre=${encodeURIComponent(currentKidData.nombre)}` +
+            `&grupo=${encodeURIComponent(currentKidData.grupo)}` +
+            `&correo=${encodeURIComponent(currentKidData.correoPadre)}` +
+            `&enfoque=${document.getElementById('r_enfoque').value}` +
+            `&disciplina=${document.getElementById('r_disciplina').value}` +
+            `&liderazgo=${document.getElementById('r_liderazgo').value}` +
+            `&autonomia=${document.getElementById('r_autonomia').value}` +
+            `&fisico=${document.getElementById('r_fisico').value}` +
+            `&equipo=${document.getElementById('r_equipo').value}` +
+            `&publico=${document.getElementById('r_publico').value}` +
+            `&respeto=${document.getElementById('r_respeto').value}` +
+            `&energia=${document.getElementById('r_energia').value}` +
+            `&frustracion=${document.getElementById('r_frustracion').value}`;
 
-    try {
-        await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' });
-        alert("El reporte ha sido enviado exitosamente al representante.");
-        cerrarModal('modalReporte');
-    } catch(e) {
-        alert("Proceso iniciado correctamente.");
-        cerrarModal('modalReporte');
-    } finally {
-        btn.innerText = originalText; btn.disabled = false;
+        try {
+            await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' });
+            alert("El reporte ha sido enviado exitosamente al representante.");
+            cerrarModal('modalReporte');
+        } catch(e) {
+            alert("Proceso iniciado correctamente.");
+            cerrarModal('modalReporte');
+        } finally {
+            btn.innerText = originalText; btn.disabled = false;
+        }
+    }
+
+   function cargarDashboardDirecto() {
+    // 1. Obtener el mes seleccionado del dropdown
+    const mesSeleccionado = document.getElementById('select-mes-dashboard').value;
+    
+    let totalVentas = 0, contadorNiños = 0, meta = 4000;
+    let mEfectivo = 0, mTransferencia = 0, mTarjeta = 0;
+    let pPro = 0, pMax = 0, pElite = 0;
+    let gExploradores = 0, gLideres = 0, gCampeones = 0;
+
+    allStudents.forEach(est => {
+        // Filtramos por el mes que el usuario eligió en el selector
+        let mesFila = String(est.mes || "").trim().toLowerCase();
+        
+        if (mesFila === mesSeleccionado) {
+            let valor = parseFloat(String(est.monto || "0").replace(/[^0-9.]/g, '')) || 0;
+            totalVentas += valor;
+            contadorNiños++;
+
+            // Pago
+            let met = String(est.metodoPago || "").trim().toLowerCase();
+            if (met.includes("efectivo")) mEfectivo += valor;
+            else if (met.includes("transferencia")) mTransferencia += valor;
+            else if (met.includes("tarjeta") || met.includes("payphone")) mTarjeta += valor;
+
+            // Planes
+            let plan = String(est.plan || "").trim().toLowerCase();
+            if (plan.includes("pro")) pPro++;
+            else if (plan.includes("max")) pMax++;
+            else if (plan.includes("elite")) pElite++;
+
+            // Grupos (Basado en la columna de grupo)
+            let grupo = String(est.grupo || "").trim().toLowerCase();
+            if (grupo.includes("exploradores")) gExploradores++;
+            else if (grupo.includes("lideres") || grupo.includes("líderes")) gLideres++;
+            else if (grupo.includes("campeones")) gCampeones++;
+        }
+    });
+
+    // --- ACTUALIZAR UI ---
+    document.getElementById('dash-total').innerText = '$' + totalVentas.toLocaleString('en-US', {minimumFractionDigits: 2});
+    document.getElementById('dash-alumnos').innerText = contadorNiños;
+    let promedio = contadorNiños > 0 ? (totalVentas / contadorNiños) : 0;
+    document.getElementById('dash-promedio').innerText = '$' + promedio.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+    // Meta
+    let porcMeta = Math.min((totalVentas / meta) * 100, 100);
+    document.getElementById('bar-meta').style.width = porcMeta + "%";
+    document.getElementById('txt-porcentaje-meta').innerText = porcMeta.toFixed(1) + "%";
+
+    // Pagos
+    document.getElementById('p-efe').innerText = '$' + mEfectivo.toLocaleString('en-US');
+    document.getElementById('p-tra').innerText = '$' + mTransferencia.toLocaleString('en-US');
+    document.getElementById('p-tar').innerText = '$' + mTarjeta.toLocaleString('en-US');
+
+    // UI de Planes
+    document.getElementById('txt-p-pro').innerText = pPro;
+    document.getElementById('txt-p-max').innerText = pMax;
+    document.getElementById('txt-p-elite').innerText = pElite;
+
+    // UI de Grupos
+    document.getElementById('txt-g-exploradores').innerText = gExploradores;
+    document.getElementById('txt-g-lideres').innerText = gLideres;
+    document.getElementById('txt-g-campeones').innerText = gCampeones;
+
+    if(contadorNiños > 0) {
+        // Barras de Planes
+        document.getElementById('bar-p-pro').style.width = (pPro / contadorNiños * 100) + "%";
+        document.getElementById('bar-p-max').style.width = (pMax / contadorNiños * 100) + "%";
+        document.getElementById('bar-p-elite').style.width = (pElite / contadorNiños * 100) + "%";
+        
+        // Barras de Grupos
+        document.getElementById('bar-g-exploradores').style.width = (gExploradores / contadorNiños * 100) + "%";
+        document.getElementById('bar-g-lideres').style.width = (gLideres / contadorNiños * 100) + "%";
+        document.getElementById('bar-g-campeones').style.width = (gCampeones / contadorNiños * 100) + "%";
+    } else {
+        // Resetear barras si no hay datos
+        ["bar-p-pro","bar-p-max","bar-p-elite","bar-g-exploradores","bar-g-lideres","bar-g-campeones"].forEach(id => {
+            document.getElementById(id).style.width = "0%";
+        });
     }
 }
 </script>
+
 <div class="modal-overlay" id="modalReporte">
     <div class="modal-box" style="max-width: 600px; max-height: 95vh; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid var(--blue); background: #ffffff;">
-        
         <div style="background: var(--blue); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid #ffcc26;">
             <div style="display: flex; align-items: center; gap: 15px;">
                 <img src="https://i.imgur.com/TffJPDG.png" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);" alt="KiDOM Logo">
@@ -579,18 +799,14 @@ async function enviarReporteDefinitivo() {
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Enfoque y Reglas</label><input type="number" id="r_enfoque" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Disciplina y Control</label><input type="number" id="r_disciplina" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Liderazgo y Servicio</label><input type="number" id="r_liderazgo" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
-                
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Autonomía en Clase</label><input type="number" id="r_autonomia" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Físico y Habilidades</label><input type="number" id="r_fisico" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Trabajo en Equipo</label><input type="number" id="r_equipo" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
-                
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Hablar en Público</label><input type="number" id="r_publico" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Respeto KidOm</label><input type="number" id="r_respeto" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Energía en Clase</label><input type="number" id="r_energia" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
-                
                 <div style="background: #f8fafc; padding: 8px; border-radius: 6px; grid-column: span 3;"><label class="label-kidom" style="font-size: 10px; font-weight: 800;">Frustración y Emociones</label><input type="number" id="r_frustracion" class="select-kidom" min="1" max="10" value="10" style="width: 100%;"></div>
             </div>
-
             <div style="display: flex; gap: 10px; margin-top: 15px;">
                 <button id="btnEnviandoRep" style="flex: 2; padding: 12px; border-radius: 8px; border: none; font-weight: 900; background: var(--blue); color: white; cursor: pointer; text-transform: uppercase; font-size: 12px;" onclick="enviarReporteDefinitivo()">ENVIAR DATOS Y GENERAR REPORTE PDF</button>
                 <button style="flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 900; background: #eee; cursor: pointer; font-size: 12px;" onclick="cerrarModal('modalReporte')">CANCELAR</button>

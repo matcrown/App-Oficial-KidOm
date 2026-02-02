@@ -298,6 +298,11 @@
     flex-direction: column;
 }
 
+.bloque-mision, .bloque-sri, .bloque-pago { 
+    width: 443px !important; 
+    flex: none !important; 
+}
+
 .beneficio-item {
     display: flex;
     align-items: center;
@@ -504,6 +509,25 @@
             <select id="sel-horario" multiple style="display:none;"></select>
         </div>
 
+<div class="contenedor-inferior-apps">
+    <div class="bloque-registro bloque-sri" style="border-left-color: #64748b !important;">
+        <div class="titulo-seccion-new">DATOS FISCALES (SRI)</div>
+        <label class="label-kidom">TIPO ID</label>
+        <select id="f_tipo_id" class="select-kidom">
+            <option value="Cedula">Cédula</option>
+            <option value="RUC">RUC</option>
+            <option value="Pasaporte">Pasaporte</option>
+        </select>
+        <label class="label-kidom">NÚMERO</label>
+        <input type="text" id="f_ruc" class="select-kidom" placeholder="010xxxxxxx" oninput="validarDocumento()">
+        <small id="msg-validador" style="font-size: 9px; font-weight: 800; display: none; margin-top: 2px;"></small>
+        <label class="label-kidom">RAZÓN SOCIAL</label>
+        <input type="text" id="f_razon" class="select-kidom">
+        <label class="label-kidom">DIRECCIÓN</label>
+        <input type="text" id="f_dir" class="select-kidom">
+    </div>
+</div>
+
         <div class="bloque-registro bloque-pago">
             <div class="titulo-seccion-new">METODO DE PAGO</div>
             <label class="label-kidom">ELIGE TU FORMA DE PAGO</label>
@@ -657,7 +681,7 @@
 <div class="modal-overlay" id="modalSalud"><div class="modal-box"><h3>FICHA MÉDICA KiDOM</h3><input type="text" id="m_est" class="select-kidom" placeholder="Estatura (cm)"><input type="text" id="m_pes" class="select-kidom" placeholder="Peso (kg)"><input type="text" id="m_ale" class="select-kidom" placeholder="Alergias"><textarea id="m_dia" class="select-kidom" placeholder="Diagnósticos" style="height:80px;"></textarea><button style="width:100%; padding:15px; border-radius:12px; border:none; font-weight:900; background:var(--dark); color:white; margin-top:10px;" onclick="cerrarModal('modalSalud')">GUARDAR DATOS</button></div></div>
 
 <script>
-    const URL_APP = "https://script.google.com/macros/s/AKfycbznzbI3xbNS6Ar-cVU5K1HYJtZ9EIzETmyzZEtlXzROpZrAVfW9MAoi5KiYxW-brSQPMA/exec";
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzVhPxhQAkxVIchJuDT9D4UlN82TyWUmBTt9BeBcEMxkjkvy7opuMBcRzkffmFQXLpFIA/exec";
     const LP = { Pro: { Mensual: "https://ppls.me/oYO7HdAY2uDaitKIp17hhQ", Trimestral: "https://ppls.me/WsTmdkuB5Trm4RvjzZ5HWg", Anual: "https://ppls.me/8IjkNd6NERmhQYk5al79A" }, Max: { Mensual: "https://ppls.me/wUQ10WYSVVnhPfg2EoYYhA", Trimestral: "https://ppls.me/gyKLQ1wx5FwpawZtoa9g", Anual: "https://ppls.me/gm9M9Q3KRe1497DJ3UiwQ" }, Elite: { Mensual: "https://ppls.me/Fvgd6XbcxNS8IRh1dBzUg", Trimestral: "https://ppls.me/YcioHxRcjCb7ESRyYOq0Q", Anual: "https://ppls.me/ezelM50M8JzDyAFtR5HZgg" } };
     const DB = { Pichincha: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 2201732707", Austro: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 3000867844", JEP: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 406068325001", Jardin: "Misael Carrión<br>CI: 0105737324<br>Ahorros: 2497049" };
 
@@ -735,6 +759,7 @@
     const totalSesiones = sesionesPorMes * multiplicadorMeses;
 
     // 3. CONSTRUCCIÓN DE LA URL
+    // 3. CONSTRUCCIÓN DE LA URL (ACTUALIZADA CON SRI)
     const query = `?action=${modo}` +
         `&nombre=${encodeURIComponent(document.getElementById('f_nombre').value)}` +
         `&representante=${encodeURIComponent(document.getElementById('f_rep').value)}` +
@@ -745,8 +770,15 @@
         `&plan=${encodeURIComponent(valPlan)}` +
         `&metodo=${encodeURIComponent(valMetodo)}` +
         `&horarios=${encodeURIComponent(h)}` +
-        `&sesiones=${totalSesiones}` + // <--- AQUÍ SE ENVÍA EL CÁLCULO CORRECTO
-        `&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}`;
+        `&sesiones=${totalSesiones}` +
+        `&foto=${encodeURIComponent(document.getElementById('f_foto_url').value)}` +
+        
+        // --- AQUÍ SE AGREGAN LOS 4 DATOS FISCALES ---
+        `&tipoId=${encodeURIComponent(document.getElementById('f_tipo_id').value)}` +
+        `&ruc=${encodeURIComponent(document.getElementById('f_ruc').value)}` +
+        `&razonSocial=${encodeURIComponent(document.getElementById('f_razon').value)}` +
+        `&direccion=${encodeURIComponent(document.getElementById('f_dir').value)}`;
+	
     
     try { 
         await fetch(URL_APP + query, { method: 'GET', mode: 'no-cors' }); 
@@ -1188,6 +1220,31 @@ function establecerMesActual() {
         selector.value = mesHoy;
     }
 }
+
+function validarDocumento() {
+    const doc = document.getElementById('f_ruc').value.trim();
+    const input = document.getElementById('f_ruc');
+    const msg = document.getElementById('msg-validador');
+    if (doc.length === 10) {
+        let cedula = doc.split('').map(Number);
+        let suma = 0;
+        for (let i = 0; i < 9; i++) {
+            let d = (i % 2 === 0) ? cedula[i] * 2 : cedula[i];
+            if (d > 9) d -= 9;
+            suma += d;
+        }
+        let verificador = (suma % 10 === 0) ? 0 : 10 - (suma % 10);
+        if (verificador === cedula[9]) {
+            input.style.border = '2px solid #22c55e';
+            msg.innerText = "✓ CÉDULA VÁLIDA"; msg.style.display = "block"; msg.style.color = "#22c55e";
+            return true;
+        }
+    }
+    input.style.border = '2px solid #ef4444';
+    msg.innerText = "× DOCUMENTO INVÁLIDO"; msg.style.display = "block"; msg.style.color = "#ef4444";
+    return false;
+}
+
 </script>
 
 <div class="modal-overlay" id="modalReporte">
